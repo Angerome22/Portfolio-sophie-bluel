@@ -206,9 +206,9 @@ li:hover {
 }
 /*---------------filtre des categories----------------------------*/
 #portfolio p {
-  /*display: none;*/
+  display: none;
 }
-.menu-categories {
+.filtre-categories {
   display: flex;
   margin-left: 307px;
   width: 585px;
