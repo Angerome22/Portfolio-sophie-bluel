@@ -1,82 +1,99 @@
-//console.log("coucou");
+//console.log("test liaison");
+
 //Récupération des travaux depuis l'API
-const reponse = await fetch("http://localhost:5678/api/works");
-const works = await reponse.json();
-//console.log(reponse);
+const reponseTravaux = await fetch("http://localhost:5678/api/works");
+const listeTravaux = await reponseTravaux.json(); //works a remplacer par ListeProjets
+//console.log(reponse); test recup sur console
+const reponseCategories = await fetch("http://localhost:5678/api/categories");
+const listeCategories = await reponseCategories.json();
 
 //Construction de la fonction qui va permettre de récupérer tous les travaux depuis l'API
-function genererWorks(works) {
+function genererTravaux(listeTravaux) {
   // boucle qui va lister les projets
-  for (let i = 0; i < works.length; i++) {
-    const figure = works[i];
+  for (let i = 0; i < listeTravaux.length; i++) {
+    const projets = listeTravaux[i];
     //recuperation de l'élément du DOM qui accueillera les projets
     const divGallery = document.querySelector(".gallery");
     //création d'une balise figure pour accueillir chaque projet
-    const worksElement = document.createElement("figure");
+    const projetItem = document.createElement("figure");
 
     //creation des balises du projet
-    const imageElement = document.createElement("img");
-    imageElement.src = figure.imageUrl;
-    const titleElement = document.createElement("figcaption");
-    titleElement.innerText = figure.title;
-    const categoryIdElement = document.createElement("p");
-    categoryIdElement.innerText = figure.categoryId;
-    const categoryElement = document.createElement("p");
-    categoryElement.innerText = figure.category.name;
+    const imageItem = document.createElement("img");
+    imageItem.src = projets.imageUrl;
+    const titleItem = document.createElement("figcaption");
+    titleItem.innerText = projets.title;
+    // creation de balise utile pour la récupération mais caché à l'affichage
+    //const categoryIdElement = document.createElement("p");
+    //categoryIdElement.innerText = figure.categoryId;
 
-    //on rattache la balise figure à la div gallery
-    divGallery.appendChild(worksElement);
-    //on rattache l'image et le title à figure(la balise)
+    //on rattache l'objet figure à la div gallery
+    divGallery.appendChild(projetItem);
+    //on rattache les balises à chaque objet
+    projetItem.appendChild(imageItem);
+    projetItem.appendChild(titleItem);
+    //projetItem.appendChild(categoryIdElement);
 
-    worksElement.appendChild(imageElement);
-    worksElement.appendChild(titleElement);
-    worksElement.appendChild(categoryIdElement);
-    worksElement.appendChild(categoryElement);
     //on rattache la balise figure au body
     //document.body.appendChild(figure);
   }
 }
+
 //appel de la fonction genererWorks
-genererWorks(works);
-// gestion des boutons filtres
-//recuperation de l'element du dom qui accueillera les filtres
+genererTravaux(listeTravaux);
+genererFiltres();
 
-const divFiltreCategories = document.querySelector(".filtre-categories");
-//-------------------creation d'une balise bouton tous----------------------------------
-const boutonFiltrerTous = document.createElement("button");
-boutonFiltrerTous.setAttribute("class", "btn-tous");
-boutonFiltrerTous.textContent = "Tous";
-//-------------------creation balise bouton objets------------------------------------
-const boutonFiltrerObjets = document.createElement("button");
-boutonFiltrerObjets.setAttribute("class", "btn-objets");
-boutonFiltrerObjets.textContent = "Objets";
-//-------------------creation balise bouton Appartements------------------------------------
-const boutonFiltrerAppartements = document.createElement("button");
-boutonFiltrerAppartements.setAttribute("class", "btn-appartements");
-boutonFiltrerAppartements.textContent = "Appartements";
-//-------------------creation balise bouton Hotels et restaurants------------------------------------
-const boutonFiltrerHotelsRestaurants = document.createElement("button");
-boutonFiltrerHotelsRestaurants.setAttribute("class", "btn-hotels-restaurants");
-boutonFiltrerHotelsRestaurants.textContent = "Hotels & Restaurants";
+// ---------------gestion des boutons filtres--------------------------------
+// creation liste de noms
+function genererFiltres() {
+  //création d'une liste des catégories avec l'id et le name
+  const listeDesCategories = listeCategories.map((categorie) => categorie);
+  //verification de la liste
+  console.log(listeDesCategories);
 
-divFiltreCategories.appendChild(boutonFiltrerTous);
-divFiltreCategories.appendChild(boutonFiltrerObjets);
-divFiltreCategories.appendChild(boutonFiltrerAppartements);
-divFiltreCategories.appendChild(boutonFiltrerHotelsRestaurants);
-//const boutonFiltrer = document.querySelector(".btn-filtrer");
-// -----------------------ajout event litener sur le bouton tous---------------------
-boutonFiltrerTous.addEventListener("click", function () {
-  //la fonction filter cree une copie de la liste de travaux
-  const worksFiltres = works.filter(function (works) {
-    return works.categoryId;
+  //recuperation de l'element du dom qui accueillera les filtres
+  const divFiltreCategories = document.querySelector(".filtre-categories");
+  //creation de la balise button "tous" en dehors de la boucle puisque hors catégorie
+  const boutonFiltrerTous = document.createElement("button");
+  boutonFiltrerTous.setAttribute("class", "btn-filtre");
+  boutonFiltrerTous.textContent = "Tous";
+  divFiltreCategories.appendChild(boutonFiltrerTous);
+
+  for (let i = 0; i < listeDesCategories.length; i++) {
+    //console.log("test");
+    const boutonFiltrer = document.createElement("button");
+    //recup de l'id du bouton pour le futur event listener
+    boutonFiltrer.dataset.id = listeDesCategories[i].id;
+    boutonFiltrer.setAttribute("class", "btn-filtre");
+    boutonFiltrer.innerText = listeDesCategories[i].name;
+    divFiltreCategories.appendChild(boutonFiltrer);
+  }
+
+  // -----------------------ajout event litener sur le bouton tous---------------------
+  boutonFiltrerTous.addEventListener("click", function () {
+    genererTravaux(listeTravaux);
   });
-  // Effacement de l'écran et regénération de la page
-  document.querySelector(".gallery").innerHTML = "";
-  genererWorks(worksFiltres);
-  //console.log(worksFiltres);
-});
+  // Effacement de l'écran et regénération de la page  A revoir
+  //document.querySelector(".gallery").innerHTML = "";
+  //genererworks(); //
+} /*
+// -----------------------ajout event litener sur les boutons filtres---------------------
+//on recupere toutes les balises buttons presentes dans la section filtres-categories
+//const boutonFiltrerCategorie = document.querySelector(
+//  ".filtres-categories button"
+// );
+
+// boutonFiltrerCategorie[i].addEventListener("click", function (event) {
+//  const id = event.target.dataset.id;
+//    return works.categoryId === 1;
+//  });
+// Effacement de l'écran et regénération de la page
+//   document.querySelector(".gallery").innerHTML = "";
+//  genererWorks(worksFiltres);
+//console.log(worksFiltres);
+// });
+//  }*/
 // -----------------------ajout event litener sur le bouton Objets---------------------
-boutonFiltrerObjets.addEventListener("click", function () {
+/*boutonFiltrerObjets.addEventListener("click", function () {
   const worksFiltres = works.filter(function (works) {
     return works.categoryId === 1;
   });
@@ -84,24 +101,4 @@ boutonFiltrerObjets.addEventListener("click", function () {
   document.querySelector(".gallery").innerHTML = "";
   genererWorks(worksFiltres);
   //console.log(worksFiltres);
-});
-// -----------------------ajout event litener sur le bouton Appartements---------------------
-boutonFiltrerAppartements.addEventListener("click", function () {
-  const worksFiltres = works.filter(function (works) {
-    return works.categoryId === 2;
-  });
-  // Effacement de l'écran et regénération de la page
-  document.querySelector(".gallery").innerHTML = "";
-  genererWorks(worksFiltres);
-  //console.log(worksFiltres);
-});
-// -----------------------ajout event litener sur le bouton Hotels et restaurants---------------------
-boutonFiltrerHotelsRestaurants.addEventListener("click", function () {
-  const worksFiltres = works.filter(function (works) {
-    return works.categoryId === 3;
-  });
-  // Effacement de l'écran et regénération de la page
-  document.querySelector(".gallery").innerHTML = "";
-  genererWorks(worksFiltres);
-  //console.log(worksFiltres);
-});
+});*/

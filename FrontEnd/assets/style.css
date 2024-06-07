@@ -225,11 +225,8 @@ li:active {
   margin-top: 35px;
   margin-bottom: 35px;
 }
-.btn-filtrer, /*pour test*/
-.btn-tous,
-.btn-objets,
-.btn-appartements,
-.btn-hotels-restaurants {
+.btn-filtre, /*pour test*/
+.btn-tous {
   border-radius: 60px;
   border: 1px solid #1d6154;
   color: #1d6154;
