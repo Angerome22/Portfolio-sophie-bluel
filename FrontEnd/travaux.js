@@ -69,22 +69,26 @@ function genererFiltres() {
   }
 }
 // -----------------------ajout event litener sur le bouton ---------------------
-
+function filterCategory(projets) {
+  const listeTravauxFiltres = listeTravaux.filter(function (categoryId) {
+    return projets.categoryId;
+  });
+}
 const listeBoutons = document.querySelectorAll(".btn-filtre");
 for (let i = 0; i < listeBoutons.length; i++) {
   const boutonActuel = listeBoutons[i];
-  console.log(boutonActuel);
-  boutonActuel.addEventListener("click", (event) => {
-    console.log(event.currentTarget);
-    const travauxFiltres = listeTravaux.filter(function (listeTravaux) {
-      //ici appel de la liste filtre pour la categorie recupere dans l'event
-    });
-    //Effacement de l'écran et regénération de la page
-    //document.querySelector(".gallery").innerHTML = "";
+  //console.log(boutonActuel);
+  boutonActuel.addEventListener("click", filterCategory);
+  //console.log(boutonActuel);
+  // return listeTravaux.categoryId === 1;
+  //const travauxFiltres = listeTravaux.filter(function (listeTravaux) {
+  //ici appel de la liste filtre pour la categorie recupere dans l'event
 
-    //genererTravaux(listeTravaux);
-  });
+  //Effacement de l'écran et regénération de la page
+  document.querySelector(".gallery").innerHTML = "";
+  genererTravaux(listeTravaux);
 }
+/*
 /*document.querySelectorAll(".btn-filtre").forEach((button) => {
   //console.log(button);
   button.addEventListener("click", function (event) {
