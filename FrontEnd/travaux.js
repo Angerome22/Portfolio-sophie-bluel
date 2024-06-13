@@ -75,7 +75,7 @@ function filterCategory(boutonActuel,projets) {
 //console.log(listeTravaux);
 
 const travauxFiltres = listeTravaux.filter(function(projetsFiltres){
-  if (projetsFiltres.categoryId === 1){
+  if (projetsFiltres.categoryId === boutonActuel.dataCategory){
    console.log(projetsFiltres);
     return projetsFiltres;
   }
