@@ -36,6 +36,7 @@ function genererTravaux(listeTravaux) {
 
     //on rattache la balise figure au body
     //document.body.appendChild(figure);
+   //console.log(projets);
   }
 }
 
@@ -69,27 +70,33 @@ function genererFiltres() {
     divFiltreCategories.appendChild(boutonFiltrer);
   }
 }
-// -----------------------ajout event litener sur le bouton ---------------------
-function filterCategory(projets) {
-  const listeTravauxFiltres = projets.filter( (projet){    
-    return projet.categoryId ;
-  });
-};
-const listeBoutons = document.querySelectorAll(".btn-filtre");
-for (let i = 0; i < listeBoutons.length; i++) {
-  const boutonActuel = listeBoutons[i];
-  boutonActuel.setAttribute("id", "dataCategory");
- console.log(boutonActuel);
-  boutonActuel.addEventListener("click", filterCategory);
+// -----------------------ajout event litener sur le bouton ---------------------  
+function filterCategory(boutonActuel,projets) {
+//console.log(listeTravaux);
+
+const travauxFiltres = listeTravaux.filter(function(projetsFiltres){
+  if (projetsFiltres.categoryId === 1){
+   console.log(projetsFiltres);
+    return projetsFiltres;
+  }
+})
+}
+  const listeBoutons = document.querySelectorAll(".btn-filtre");
+    for (let i = 0; i < listeBoutons.length; i++) {
+      const boutonActuel = listeBoutons[i];
+      boutonActuel.setAttribute("id", "dataCategory");
+    //console.log(boutonActuel);
+      boutonActuel.addEventListener("click", filterCategory );
+    }
   //console.log(boutonActuel);
   // return listeTravaux.categoryId === 1;
   //const travauxFiltres = listeTravaux.filter(function (listeTravaux) {
   //ici appel de la liste filtre pour la categorie recupere dans l'event
 
   //Effacement de l'écran et regénération de la page
-  document.querySelector(".gallery").innerHTML = "";
-  genererTravaux(listeTravaux);
-}
+ /*document.querySelector(".gallery").innerHTML = "";
+  genererTravaux(listeTravaux);*/
+/*}*/
 /*
 /*document.querySelectorAll(".btn-filtre").forEach((button) => {
   //console.log(button);
