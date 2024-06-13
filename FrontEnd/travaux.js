@@ -17,7 +17,11 @@ ajouterListenerFiltres(listeTravaux);
 function genererTravaux(listeTravaux) {
   //recuperation de l'élément du DOM qui accueillera les projets
   const divGallery = document.querySelector(".gallery");
-  //Effacement de l'écran et regénération de la page
+  // Vérifiez que l'élément existe avant d'essayer de modifier son contenu
+  if (!divGallery) {
+    console.error("L'élément .gallery n'existe pas sur cette page.");
+    return;}
+  //Effacement de l'écran et regénération de la page  
   divGallery.innerHTML = "";
 
   // boucle qui va lister les projets
@@ -52,6 +56,11 @@ function genererFiltres(listeCategories, listeTravaux) {
    //const listeDesCategories = listeCategories.map((categorie) => categorie);     
 
   const divFiltreCategories = document.querySelector(".filtre-categories");
+  // Vérifiez que l'élément existe avant d'essayer de modifier son contenu
+  if (!divFiltreCategories) {
+    console.error("L'élément .filtre-categories n'existe pas sur cette page.");
+    return;
+  }
   divFiltreCategories.innerHTML= "";
   //creation de la balise button "tous" en dehors de la boucle puisque hors catégorie
   const boutonFiltrerTous = document.createElement("button");
