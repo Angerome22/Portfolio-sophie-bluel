@@ -19,6 +19,7 @@ function genererTravaux(listeTravaux) {
 
     //creation des balises du projet
     const imageItem = document.createElement("img");
+    
     imageItem.src = projets.imageUrl;
     const titleItem = document.createElement("figcaption");
     titleItem.innerText = projets.title;
@@ -70,14 +71,15 @@ function genererFiltres() {
 }
 // -----------------------ajout event litener sur le bouton ---------------------
 function filterCategory(projets) {
-  const listeTravauxFiltres = listeTravaux.filter(function (categoryId) {
-    return projets.categoryId;
+  const listeTravauxFiltres = projets.filter( (projet){    
+    return projet.categoryId ;
   });
-}
+};
 const listeBoutons = document.querySelectorAll(".btn-filtre");
 for (let i = 0; i < listeBoutons.length; i++) {
   const boutonActuel = listeBoutons[i];
-  //console.log(boutonActuel);
+  boutonActuel.setAttribute("id", "dataCategory");
+ console.log(boutonActuel);
   boutonActuel.addEventListener("click", filterCategory);
   //console.log(boutonActuel);
   // return listeTravaux.categoryId === 1;
