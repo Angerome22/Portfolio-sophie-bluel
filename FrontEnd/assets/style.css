@@ -215,7 +215,7 @@ li:active {
 }
 /*---------------filtre des categories----------------------------*/
 #portfolio p {
-  /*display: none;*/
+ display: none;
 }
 .filtre-categories {
   display: flex;

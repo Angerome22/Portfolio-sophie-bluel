@@ -1,5 +1,5 @@
 //console.log("test liaison");
-
+async function fetchData() {
 //Récupération des travaux depuis l'API
 const reponseTravaux = await fetch("http://localhost:5678/api/works");
 const listeTravaux = await reponseTravaux.json(); //works a remplacer par ListeProjets
@@ -7,157 +7,85 @@ const listeTravaux = await reponseTravaux.json(); //works a remplacer par ListeP
 const reponseCategories = await fetch("http://localhost:5678/api/categories");
 const listeCategories = await reponseCategories.json();
 
+// appel des fonctions pour générer les travaux et les filtres
+genererTravaux(listeTravaux);
+genererFiltres(listeCategories, listeTravaux);
+ajouterListenerFiltres(listeTravaux);
+
+}
 //Construction de la fonction qui va permettre de récupérer tous les travaux depuis l'API
 function genererTravaux(listeTravaux) {
+  //recuperation de l'élément du DOM qui accueillera les projets
+  const divGallery = document.querySelector(".gallery");
+  //Effacement de l'écran et regénération de la page
+  divGallery.innerHTML = "";
+
   // boucle qui va lister les projets
   for (let i = 0; i < listeTravaux.length; i++) {
     const projets = listeTravaux[i];
-    //recuperation de l'élément du DOM qui accueillera les projets
-    const divGallery = document.querySelector(".gallery");
+    
     //création d'une balise figure pour accueillir chaque projet
     const projetItem = document.createElement("figure");
 
     //creation des balises du projet
-    const imageItem = document.createElement("img");
-    
+    const imageItem = document.createElement("img");    
     imageItem.src = projets.imageUrl;
     const titleItem = document.createElement("figcaption");
-    titleItem.innerText = projets.title;
-    // creation de balise utile pour la récupération mais caché à l'affichage
-    const categoryIdElement = document.createElement("p");
+    titleItem.innerText = projets.title;    
+    const categoryIdElement = document.createElement("p");//caché à l'affichage
     categoryIdElement.innerText = projets.categoryId;
-
-    //on rattache l'objet figure à la div gallery
-    divGallery.appendChild(projetItem);
-    //on rattache les balises à chaque objet
+    
+    //on rattache les éléments à chaque balise figure
     projetItem.appendChild(imageItem);
     projetItem.appendChild(titleItem);
     projetItem.appendChild(categoryIdElement);
-
-    //on rattache la balise figure au body
-    //document.body.appendChild(figure);
-   //console.log(projets);
+    //on rattache l'objet figure à la div gallery
+    divGallery.appendChild(projetItem);    
   }
 }
 
-//appel de la fonction genererWorks
-genererTravaux(listeTravaux);
-genererFiltres();
-//ajoutListenerFiltre();
+
 
 // ---------------gestion des boutons filtres--------------------------------
-// creation liste de noms
-function genererFiltres() {
-  //création d'une liste des catégories avec l'id et le name
-  const listeDesCategories = listeCategories.map((categorie) => categorie);
-  //console.log(listeDesCategories);
-  //recuperation de l'element du dom qui accueillera les filtres
+
+function genererFiltres(listeCategories, listeTravaux) {
+   //const listeDesCategories = listeCategories.map((categorie) => categorie);     
+
   const divFiltreCategories = document.querySelector(".filtre-categories");
+  divFiltreCategories.innerHTML= "";
   //creation de la balise button "tous" en dehors de la boucle puisque hors catégorie
   const boutonFiltrerTous = document.createElement("button");
   boutonFiltrerTous.setAttribute("class", "btn-tous");
   boutonFiltrerTous.textContent = "Tous";
   divFiltreCategories.appendChild(boutonFiltrerTous);
-  //boucle pour afficher le nom des catégories de l'api
-  for (let i = 0; i < listeDesCategories.length; i++) {
+
+  //boucle pour afficher le nom de chaque catégorie de l'api
+  for (let i = 0; i < listeCategories.length; i++) {
     //console.log("test");
     const boutonFiltrer = document.createElement("button");
     //recup de l'id du bouton pour le futur event listener
-    boutonFiltrer.dataset.id = listeDesCategories[i].id;
+    boutonFiltrer.dataset.id = listeCategories[i].id;
     //console.log(boutonFiltrer.dataset.id); //affiche bien 1 2 et 3 dans la console
     boutonFiltrer.setAttribute("class", "btn-filtre");
-    boutonFiltrer.innerText = listeDesCategories[i].name;
+    boutonFiltrer.innerText = listeCategories[i].name;
     divFiltreCategories.appendChild(boutonFiltrer);
   }
-}
-// -----------------------ajout event litener sur le bouton ---------------------  
-function filterCategory(boutonActuel,projets) {
-//console.log(listeTravaux);
-
-const travauxFiltres = listeTravaux.filter(function(projetsFiltres){
-  if (projetsFiltres.categoryId === boutonActuel.dataCategory){
-   console.log(projetsFiltres);
-    return projetsFiltres;
-  }
+// -----------------------ajout event litener sur les boutons ---------------------  
+boutonFiltrerTous.addEventListener("click", () =>{
+  genererTravaux(listeTravaux);
 })
 }
-  const listeBoutons = document.querySelectorAll(".btn-filtre");
+
+ function ajouterListenerFiltres(listeTravaux){
+  const listeBoutons = document.querySelectorAll(".btn-filtre"); 
     for (let i = 0; i < listeBoutons.length; i++) {
-      const boutonActuel = listeBoutons[i];
-      boutonActuel.setAttribute("id", "dataCategory");
-    //console.log(boutonActuel);
-      boutonActuel.addEventListener("click", filterCategory );
+      const boutonActuel = listeBoutons[i];     
+      boutonActuel.addEventListener("click", (event) => {
+        const categoryId = parseInt(event.target.dataset.id, 10); 
+        const listeTravauxFiltres = listeTravaux.filter(travail => travail.categoryId === categoryId);
+        genererTravaux(listeTravauxFiltres); 
+      });
     }
-  //console.log(boutonActuel);
-  // return listeTravaux.categoryId === 1;
-  //const travauxFiltres = listeTravaux.filter(function (listeTravaux) {
-  //ici appel de la liste filtre pour la categorie recupere dans l'event
-
-  //Effacement de l'écran et regénération de la page
- /*document.querySelector(".gallery").innerHTML = "";
-  genererTravaux(listeTravaux);*/
-/*}*/
-/*
-/*document.querySelectorAll(".btn-filtre").forEach((button) => {
-  //console.log(button);
-  button.addEventListener("click", function (event) {
-    console.log(event.currentTarget);
-    const travauxFiltres = listeTravaux.filter(function (listeTravaux) {
-      return listeTravaux.categoryId;
-    });
-  });
-  //Effacement de l'écran et regénération de la page
-  document.querySelector(".gallery").innerHTML = "";
-  genererTravaux(listeTravaux);
-});
-
-const listeTravauxFiltres = listeTravaux.filter(function (listeTravaux) {
-  console.log(listeTravaux.categoryId === 1);
-});*/
-
-/*button.addEventListener("click", function () {
-  const travauxFiltres = listeTravaux.filter(function (listeTravaux) {
-  if (listeTravaux.categoryId === 1) {
-    return listeTravaux.categoryId;
-   }
-  });
-  //Effacement de l'écran et regénération de la page
-  document.querySelector(".gallery").innerHTML = "";
-  genererTravaux(listeTravaux);
-});*/
-
-//function onClickFiltre(event) {
-// console.log(event.currentTarget);
-//création d'une liste des catégories avec l'id et le name
-
-/*document.querySelectorAll("button").forEach((button) => {
-  button.addEventListener("click", function (event) {
-    const projetsFiltres = listeTravaux.filter(function (listeTravaux) {
-      console.log(projetsFiltres);
-    });
-    //Effacement de l'écran et regénération de la page
-    document.querySelector(".gallery").innerHTML = "";
-    genererProjets(projetsFiltres);
-  });
-});*/
-
-/*function ajoutListenerFiltre() {
-  const boutonFiltrer = document.querySelectorAll(".btn-filtre");
-  for (let i = 0; i < boutonFiltrer.length; i++) {
-    boutonFiltrer[i].addEventListener("click", function (event) {
-      const id = event.target.dataset.id;
-      console.log;
-      // genererTravaux(listeTravaux);
-    });*/
-/*}/*
-}*/
-// -----------------------ajout event litener sur le bouton Objets---------------------//
-//boutonFiltrerObjets.addEventListener("click", function () {
-//const projetsFiltres = projets.filter(function (projets) {
-// return projets.categoryId === 1;
-//});
-// Effacement de l'écran et regénération de la page
-//document.querySelector(".gallery").innerHTML = "";
-//genererProjets(projetsFiltres);
-//console.log(worksFiltres);
-//});
+ }
+ // appel de la fonction fetchData pour initialiser les travaux et les filtres
+ fetchData();
