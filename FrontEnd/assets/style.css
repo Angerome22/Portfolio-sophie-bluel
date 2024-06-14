@@ -213,6 +213,9 @@ li:active {
   text-align: center;
   margin-bottom: 1em;
 }
+.mesprojets {
+  margin-right: 10px;
+}
 /*---------------filtre des categories----------------------------*/
 #portfolio p {
  display: none;

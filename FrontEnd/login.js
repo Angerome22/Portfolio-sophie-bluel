@@ -14,23 +14,21 @@
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({ email, password })
-            });
-            
-    //1er cas si 
+            });         
+ 
             if (reponseLogin.ok) {
                 const data = await reponseLogin.json();
                 //stokage du token d'authentification pour pouvoir agir dans la page index
                 const token = data.token
-               localStorage.setItem("authToken", token);
-                
-
+                localStorage.setItem("authToken", token);              
+                //trouver le moyen de vérifier que le token est stoké avec un console.log
+                // on desactive temporairement le window location et on peut voir dans la console le token
+                //console.log(token); 
                 // la connexion est réussie on retourne sur la page d'accueil en modification
-                window.location.href = ("index.html");            
+                window.location.href = ("index.html"); 
+                                //voir comment mettre le crayon et faire cacher les filtres
                
-                //stokage du token d'authentification pour pouvoir agir dans la page index
-                window.localStorage.setItem("data", "reponseLogin");
-                console.log("data");
-                //ajout du crayon de modification
+                //voir comment mettre logout à la place de login                
             } else {
                 // on complete la balise p prevu pour les erreurs
                 const errorData = await reponseLogin.json();
@@ -41,6 +39,7 @@
             errorMessage.textContent = "Erreur de connexion. Veuillez réessayer plus tard.";
         }
     });
-    
 
 
+
+// 

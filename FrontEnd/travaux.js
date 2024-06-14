@@ -1,3 +1,56 @@
+
+document.addEventListener("DOMContentLoaded", function (){
+//on s'assure que le token est bien présent ici pour la suite des modifs
+const token = localStorage.getItem("authToken");
+if (token){
+  //si le token est présent on utilise la fonction qui modifie l'interface d'admin d'index
+  afficherInterfaceAdmin();
+}else{
+  //sinon on execute l'interface classique
+  afficherInterfaceClassique();
+}
+fetchData();
+})
+function afficherInterfaceAdmin(){
+  const divFiltreCategories = document.querySelector(".filtre-categories");
+  if (divFiltreCategories){
+    divFiltreCategories.style.display = "none";//on cache le filtre
+  }
+  //on remplace login par logout
+  const loginButton = document.querySelector(".login-button");
+  if (loginButton){
+    loginButton.textContent = "logout";
+    //on ajout un ecouteur au bouton pour retourner sur la page login quand on se deconnecte
+    loginButton.addEventListener("click", function(){
+      localStorage.removeItem("authToken");
+      window.Location.href = "login.html";
+    })
+  }
+  //on ajoute le logo crayon modification
+  const mesProjets = document.querySelector(".mes-projets");
+  if (mesProjets) {
+    const editIcon = document.createElement("i");
+    editIcon.classList.add("fa","regular","fa-pen-to-square","edit-icon");   
+    mesProjets.appendChild(editIcon);  
+  }
+}
+
+function afficherInterfaceClassique() {
+  function afficherInterfaceNonAuthentifie() {
+    const divFiltreCategories = document.querySelector(".filtre-categories");
+    if (divFiltreCategories) {
+        divFiltreCategories.style.display = "block";
+    }
+
+    const loginButton = document.querySelector(".login-button");
+    if (loginButton) {
+        loginButton.textContent = "Login";
+    }
+}
+
+}
+
+
 //console.log("test liaison");
 async function fetchData() {
 //Récupération des travaux depuis l'API
@@ -13,6 +66,7 @@ genererFiltres(listeCategories, listeTravaux);
 ajouterListenerFiltres(listeTravaux);
 
 }
+
 //Construction de la fonction qui va permettre de récupérer tous les travaux depuis l'API
 function genererTravaux(listeTravaux) {
   //recuperation de l'élément du DOM qui accueillera les projets
@@ -98,3 +152,4 @@ boutonFiltrerTous.addEventListener("click", () =>{
  }
  // appel de la fonction fetchData pour initialiser les travaux et les filtres
  fetchData();
+ 
