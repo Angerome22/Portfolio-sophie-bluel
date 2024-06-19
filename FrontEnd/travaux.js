@@ -8,17 +8,32 @@ if (token){
 
 }else{
   //sinon on execute l'interface classique
-  //afficherInterfaceClassique();//
-  fetchData();
+  afficherInterfaceClassique();
+
 }
 fetchData();
 
 //ajout code de la modale
 
  // Code pour afficher et fermer la modale
+
+ const openModal = function (e) {
+  e.preventDefault();
+  //const target =document.querySelector(e.target.getAttribute("href"));
+  const href = e.target.getAttribute(".js-modal");
+  const target = document.querySelector(href);
+  
+  console.log("Trying to open modal with href:", href);
+  console.log("Target element:", target);
+  target.style.display = "block";
+  target.removeAttribute("aria-hidden");
+  target.setAttribute("aria-modal", "true")
+ }
  
-
-
+document.querySelectorAll(".js-modal").forEach(a => {
+  a.addEventListener("click", openModal);
+})
+});
 function afficherInterfaceAdmin(){
   const divFiltreCategories = document.querySelector(".filtre-categories");
   if (divFiltreCategories){
@@ -52,7 +67,7 @@ function afficherInterfaceAdmin(){
     mesProjets.appendChild(linkIcon);  
   }
 }
-/*function afficherInterfaceClassique() {
+function afficherInterfaceClassique() {
   function afficherInterfaceNonAuthentifie() {
     const divFiltreCategories = document.querySelector(".filtre-categories");
     if (divFiltreCategories) {
@@ -64,7 +79,7 @@ function afficherInterfaceAdmin(){
         loginButton.textContent = "Login";
     }
 }
-}*/
+}
 
 
 //console.log("test liaison");
