@@ -26,12 +26,23 @@ function afficherInterfaceAdmin(){
       window.Location.href = "login.html";
     })
   }
-  //on ajoute le logo crayon modification
+  //on ajoute le logo crayon  texte modification
   const mesProjets = document.querySelector(".mes-projets");
   if (mesProjets) {
+    const linkIcon = document.createElement("a");
     const editIcon = document.createElement("i");
-    editIcon.classList.add("fa","regular","fa-pen-to-square","edit-icon");   
-    mesProjets.appendChild(editIcon);  
+    const iconText = document.createElement("span");
+    linkIcon.href = "#modal1";
+    linkIcon.setAttribute("id", "openLinkModal")
+    linkIcon.classList.add("js-modal");
+    iconText.classList.add("modify")
+    editIcon.classList.add("fa-regular","fa-pen-to-square","edit-icon");
+    iconText.textContent = "modifier";
+    
+    linkIcon.appendChild(editIcon);
+    linkIcon.appendChild(iconText);
+
+    mesProjets.appendChild(linkIcon);  
   }
 }
 
@@ -49,6 +60,7 @@ function afficherInterfaceClassique() {
 }
 
 }
+
 
 
 //console.log("test liaison");

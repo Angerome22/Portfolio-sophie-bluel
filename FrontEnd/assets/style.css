@@ -216,6 +216,61 @@ li:active {
 .mesprojets {
   margin-right: 10px;
 }
+.js-modal{
+  text-decoration: none;
+  color: inherit;
+}
+ i.fa-pen-to-square {
+  margin-left: 45px;
+  height: 5px;
+  left : 846px;
+}
+i .fa-regular.fa-pen-to-square.edit-icon::before {
+height: 5px;
+width:5px;
+}
+ .modify {
+  font-size: 15px;
+  margin-left: 10px;
+}
+/*--------------------modale----------------------------------*/
+* {box-sizing: border-box;}
+.modal {
+  display: none;
+  position: fixed; 
+  align-items: center;
+  justify-content: center;
+  top: 360px;
+  left: 405px;  
+  background: #fff;
+}
+.modal-content {
+  overflow: auto;
+  width: 630px;
+  /*max-width: calc(100vh - 20px);*/
+  height: 688px;
+  /*max-height: calc(100vh - 20px) ;*/
+  background-color: #9df0f5;
+  border-radius: 10px;
+}
+.gallery-modif {
+  display: grid;
+  grid-template-columns: 76.86px 76.86px 76.86px 76.86px 76.86px;
+  grid-template-rows: 102.57px 102.57px 102.57px 102.57px 102.57px;
+  gap: 20px;
+}
+.edit {
+  margin-left: 80px ;  
+}
+
+
+
+
+
+
+
+
+
 /*---------------filtre des categories----------------------------*/
 #portfolio p {
  display: none;
@@ -308,3 +363,4 @@ footer nav ul {
   justify-content: flex-end;
   margin: 2em;
 }
+

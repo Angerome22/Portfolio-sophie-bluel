@@ -1,4 +1,3 @@
-//ecouter le bouton se connecter
     document.getElementById("loginForm").addEventListener("submit", async function(event) {
 //permet de ne pas envoyer le formulaire tout de suite    
         event.preventDefault();
@@ -25,10 +24,7 @@
                 // on desactive temporairement le window location et on peut voir dans la console le token
                 //console.log(token); 
                 // la connexion est réussie on retourne sur la page d'accueil en modification
-                window.location.href = ("index.html"); 
-                                //voir comment mettre le crayon et faire cacher les filtres
-               
-                //voir comment mettre logout à la place de login                
+                window.location.href = ("index.html");                                            
             } else {
                 // on complete la balise p prevu pour les erreurs
                 const errorData = await reponseLogin.json();
