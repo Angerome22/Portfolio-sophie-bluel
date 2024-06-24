@@ -220,12 +220,12 @@ li:active {
   text-decoration: none;
   color: inherit;
 }
- i.fa-pen-to-square {
-  margin-left: 45px;
+ i.fa-pen-to-square.fa-2xs {
+  margin-left: 25px;
   height: 5px;
-  left : 846px;
+  left : 810px;
 }
-i .fa-regular.fa-pen-to-square.edit-icon::before {
+i .fa-regular.fa-pen-to-square.fa-2xs.edit-icon::before {
 height: 5px;
 width:5px;
 }
@@ -233,50 +233,6 @@ width:5px;
   font-size: 15px;
   margin-left: 10px;
 }
-/*--------------------modale----------------------------------*/
-* {box-sizing: border-box;}
-
-.modal { 
-  display: flex;
-  align-items: center;
-  justify-content: center; 
-  position: fixed; 
-  width: 80%;
-  height: 80%;
-  background: rgba(0, 0, 0, 0.8);
-  top: 150px;  
-}
-.modal-content {
-  overflow: auto;
-  padding: 5px;
-  width: 630px;
- /* max-width: calc(100vh - 20px);*/
-  height: 688px;
-  /*max-height: calc(100vh - 20px) ;*/
-  background-color: #fff;
-  border-radius: 10px;
-}
-/*.gallery-modif {
-  display: grid;
-  grid-template-columns: 76.86px 76.86px 76.86px 76.86px 76.86px;
-  grid-template-rows: 102.57px 102.57px 102.57px 102.57px 102.57px;
-  gap: 20px;
-}*/
-.edit {
-  margin-left: 80px ;  
-}
-/*.modal-close {
-  position: absolute;
-  }*/
-
-
-
-
-
-
-
-
-
 /*---------------filtre des categories----------------------------*/
 #portfolio p {
  display: none;
@@ -370,3 +326,63 @@ footer nav ul {
   margin: 2em;
 }
 
+/*-------------------------------------------------------------modale-----------------------------------------*/
+body, html {
+margin: 0;
+padding: 0;
+}
+
+* {box-sizing: border-box;}
+*:focus {
+    box-shadow:  0 0 10px blue;
+}
+
+.modal {        
+    position:fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top:0;
+    left: 0;
+    width: 100%;
+    height:100%;
+    background: rgba(0, 0, 0, 0.6);
+
+}
+.modal-wrapper { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: auto;
+    width: 630px; 
+    height: 680px;   
+    max-width:  calc(100vw - 20px);
+    padding: 20px;
+    max-height: calc(100vh - 20px);
+    background-color: #fff;  
+    border-radius: 10px;
+}
+.fa-solid .fa-xmark {
+  width: 12.01px;
+  height: 12.01px; 
+ 
+}
+.js-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;  
+  border: none;
+  background: none;
+ 
+}
+#titlemodal {
+  width: 100%;
+  height: 30px;
+  margin-top: 60px;
+  align-items: center;
+ 
+ 
+
+
+}

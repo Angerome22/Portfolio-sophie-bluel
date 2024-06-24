@@ -13,27 +13,7 @@ if (token){
 }
 fetchData();
 
-//ajout code de la modale
 
- // Code pour afficher et fermer la modale
-
- const openModal = function (e) {
-  e.preventDefault();
-  //const target =document.querySelector(e.target.getAttribute("href"));
-  const href = e.target.getAttribute(".js-modal");
-  const target = document.querySelector(href);
-  
-  console.log("Trying to open modal with href:", href);
-  console.log("Target element:", target);
-  target.style.display = "block";
-  target.removeAttribute("aria-hidden");
-  target.setAttribute("aria-modal", "true")
- }
- 
-document.querySelectorAll(".js-modal").forEach(a => {
-  a.addEventListener("click", openModal);
-})
-});
 function afficherInterfaceAdmin(){
   const divFiltreCategories = document.querySelector(".filtre-categories");
   if (divFiltreCategories){
@@ -58,7 +38,7 @@ function afficherInterfaceAdmin(){
     linkIcon.href = "#modal1";    
     linkIcon.classList.add("js-modal");
     iconText.classList.add("modify")
-    editIcon.classList.add("fa-regular","fa-pen-to-square","edit-icon");
+    editIcon.classList.add("fa-regular","fa-pen-to-square", "fa-2xs", "edit-icon");
     iconText.textContent = "modifier";
     
     linkIcon.appendChild(editIcon);
@@ -67,8 +47,81 @@ function afficherInterfaceAdmin(){
     mesProjets.appendChild(linkIcon);  
   }
 }
-function afficherInterfaceClassique() {
-  function afficherInterfaceNonAuthentifie() {
+
+//-----------------------------------------ajout code de la modale-----------------------------------------------------------------------
+let modal = null
+const focusableSelector = "button, a, input"
+let focusables = []
+let previouslyFocusedElement = null
+
+const openModal =  function (e) {
+    e.preventDefault()
+    modal =document.querySelector(e.target.getAttribute("href")) //donne #modal1
+    focusables = Array.from(modal.querySelectorAll(focusableSelector))
+    previouslyFocusedElement = document.querySelector(":focus")     
+    modal.style.display = null
+    focusables[0].focus() 
+    modal.removeAttribute("aria-hidden")
+    modal.setAttribute("aria-modal", "true")    
+    modal.addEventListener("click" , closeModal)
+    modal.querySelector(".js-modal-close").addEventListener("click", closeModal)
+    //on appelle le js-modal-stop pour lui dire qu'on veut arreter la propagation à ce moment là 
+    modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
+}
+const closeModal =  function (e) {
+  if (modal === null) return
+  if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
+  e.preventDefault()  
+  modal.style.display = "none"
+  modal.setAttribute("aria-hidden", "true")
+  modal.removeAttribute("aria-modal")
+  modal.removeEventListener("click", closeModal)
+  modal.querySelector(".js-modal-close").removeEventListener("click", closeModal)
+  modal.querySelector(".js-modal-stop").removeEventListener("click", stopPropagation)
+  modal = null  
+}
+
+const stopPropagation = function (e) {
+  e.stopPropagation()
+}
+const focusInModal = function (e) {
+  e.preventDefault()
+  let index = focusables.findIndex(f => f === modal.querySelector(":focus")) 
+  if (e.shiftkey === true) {
+    index--
+  } else {
+    index++
+  }
+   
+  if (index >= focusables.length){
+    index = 0
+  }
+  if (index < 0) {
+    index = focusables.length - 1
+  }
+  focusables[index].focus()
+
+}
+
+document.querySelectorAll(".js-modal").forEach(a => {
+    a.addEventListener("click" , openModal)
+})
+
+//a l'action de la touche escape on devrait pouvoir sortir donc on écoute les touches du clavier
+window.addEventListener("keydown" , function(e) {
+  //console.log(e.key)//nous affiche la touche appuyée
+  if (e.key === "Escape" || e.key === "Esc") {
+    closeModal(e)
+  }
+  if (e.key === "Tab" && modal !== null){
+    focusInModal(e)
+  }
+})
+
+ //-----------------------------------------------------------------fin de la modale----------------------------------------------------------//
+
+
+  function afficherInterfaceClassique() {
     const divFiltreCategories = document.querySelector(".filtre-categories");
     if (divFiltreCategories) {
         divFiltreCategories.style.display = "block";
@@ -79,8 +132,7 @@ function afficherInterfaceClassique() {
         loginButton.textContent = "Login";
     }
 }
-}
-
+})
 
 //console.log("test liaison");
 async function fetchData() {
