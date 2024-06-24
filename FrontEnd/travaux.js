@@ -54,6 +54,43 @@ const focusableSelector = "button, a, input"
 let focusables = []
 let previouslyFocusedElement = null
 
+/*
+function genererGaleriePhotoModal(projets) {
+  //recuperation de l'élément du DOM qui accueillera les projets
+  const divGalleriePhoto = document.querySelector(".galeriePhotoModal");
+  // Vérifiez que l'élément existe avant d'essayer de modifier son contenu
+  if (!galeriePhotoModal) {
+    console.error("L'élément .galeriePhotoModal n'existe pas sur cette page.");
+    return;}
+  //Effacement de l'écran et regénération de la page  
+  divGalleriePhoto.innerHTML = "";
+
+  // boucle qui va lister les projets
+  for (let i = 0; i < listeTravaux.length; i++) {
+    const projetsModal = listeTravaux[i];
+    
+    //création d'une balise figure pour accueillir chaque projet
+    const projetItemModal = document.createElement("figure");
+
+    //creation des balises du projet
+    const imageItemModal = document.createElement("img");    
+    imageItemModal.src = projetsModal.imageUrl;
+    /*const titleItem = document.createElement("figcaption");
+    titleItem.innerText = projets.title;    
+    const categoryIdElement = document.createElement("p");//caché à l'affichage
+    categoryIdElement.innerText = projets.categoryId;*/
+    
+    //on rattache les éléments à chaque balise figure
+   // projetItemModal.appendChild(imageItemModal);
+    /*projetItem.appendChild(titleItem);
+    projetItem.appendChild(categoryIdElement);
+    //on rattache l'objet figure à la div gallery*/
+   // divGalleriePhoto.appendChild(projetItemModal);    
+ // }
+//}*/
+
+
+
 const openModal =  function (e) {
     e.preventDefault()
     modal =document.querySelector(e.target.getAttribute("href")) //donne #modal1
@@ -64,7 +101,13 @@ const openModal =  function (e) {
     modal.removeAttribute("aria-hidden")
     modal.setAttribute("aria-modal", "true")    
     modal.addEventListener("click" , closeModal)
-    modal.querySelector(".js-modal-close").addEventListener("click", closeModal)
+    modal.querySelector(".js-modal-close").addEventListener("click", closeModal) 
+    //insertion de l'appel des photos de l'API dans une div galerie-photo------------------------------------------------------------//
+  //  genererGaleriePhotoModal(projets)
+    
+        //fin du test d'insertion --------------------------------------------------------------------------------------------//
+
+
     //on appelle le js-modal-stop pour lui dire qu'on veut arreter la propagation à ce moment là 
     modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
 }
