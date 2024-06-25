@@ -65,15 +65,10 @@ const openModal =  function (e) {
     modal.setAttribute("aria-modal", "true")    
     modal.addEventListener("click" , closeModal)
     modal.querySelector(".js-modal-close").addEventListener("click", closeModal) 
-    //insertion de l'appel des photos de l'API dans une div galerie-photo------------------------------------------------------------//
-  //  genererGaleriePhotoModal(projets)
-    
-        //fin du test d'insertion --------------------------------------------------------------------------------------------//
-
-
     //on appelle le js-modal-stop pour lui dire qu'on veut arreter la propagation à ce moment là 
     modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
 }
+
 const closeModal =  function (e) {
   if (modal === null) return
   if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
@@ -138,7 +133,7 @@ window.addEventListener("keydown" , function(e) {
         loginButton.textContent = "Login";
     }
 }
-})
+
 
 //console.log("test liaison");
 async function fetchData() {
@@ -252,7 +247,7 @@ function genererGaleriePhotoModal(listePhotos) {
             const projetItemModal = document.createElement("figure");
 
             const logoSupp = document.createElement("i");
-            logoSupp.classList.add("fa-solid", "fa-trash-can", "fa-2xs", "trash-icon");
+            logoSupp.classList.add("fa-solid", "fa-trash-can", "trash-icon");            
 
             const imageItemModal = document.createElement("img");
             imageItemModal.src = photo.imageUrl;
@@ -266,8 +261,35 @@ function genererGaleriePhotoModal(listePhotos) {
             projetItemModal.appendChild(categoryIdPhoto);
             divgalleryPhotoModal.appendChild(projetItemModal);
         }
-    }
+        const ajoutPhotoButton = document.querySelector(".js-ajout-photo");
+        const modal1 = document.getElementById("modal1");
+        const modal2 = document.querySelector(".modal2");
+        const backButton = document.querySelector(".js-modal-back");
 
+            if (ajoutPhotoButton && modal1 && modal2 && backButton) {
+                ajoutPhotoButton.addEventListener("click", () => {
+                    // Cacher la première partie de la modale
+                    modal1.querySelector(".galleryPhotoModal").style.display = "none";
+                    ajoutPhotoButton.style.display = "none";
+                    modal1.querySelector("h2").style.display = "none"; // Cacher le titre "Galerie photo"
+                    modal1.querySelector(".js-modal-close").style.display = "none"; // Cacher le bouton close
+                    // Afficher la seconde partie de la modale
+                    modal2.style.display = "block";
+                });
+                backButton.addEventListener("click", () => {
+                  // Afficher la première partie de la modale
+                  modal1.querySelector(".galleryPhotoModal").style.display = "block";
+                  ajoutPhotoButton.style.display = "block";
+                  modal1.querySelector("h2").style.display = "block"; // Afficher le titre "Galerie photo"
+                  modal1.querySelector(".js-modal-close").style.display = "block"; // Afficher le bouton close
+                  // Cacher la seconde partie de la modale
+                  modal2.style.display = "none";
+              });
+  
+              modal2.querySelector(".js-modal-close").addEventListener("click", closeModal);
+          }
+      }    
+    })
  
  // appel de la fonction fetchData pour initialiser les travaux et les filtres
  fetchData();

@@ -433,14 +433,70 @@ padding: 0;
   height: 102.57px; 
   object-fit: cover; 
 }
-.trash-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color:white;
-  font-size: 17px; /* Ajuste la taille de l'icône selon vos besoins */
-  width: 17px;
-  height: 17px;
-  background-color: black;
+i.fa-solid.fa-trash-can.trash-icon::before{
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color:white;
+    font-size: 11px; /* Ajuste la taille de l'icône selon vos besoins */
+    align-items: center;
+    justify-content: center;
+}
+  .trash-icon {
+    display: flex;
+    position: absolute;
+    top: 8px;
+    right: 6px;
+    width: 17px;
+    height: 17px;
+    background-color: black;   
+     }
+  i.fa-regular.fa-image::before {
+    width: 76px;
+    height: 76px;
+  }   
+  .photo-container {
+    width: 420px;
+    height: 169px;
+    border-radius: 3px;
+    background-color:#E8F1F6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    padding: 15px 0px;
+    align-items: center;
+    justify-content: center;
+
   }
+  i.fa-regular.fa-image::before {
+    font-size: 76px; /* Ajustez la taille de l'icône si nécessaire */
+    color: #B9C5CC; /* Couleur de l'icône */
+}
+ .btn-ajout-fichier {
+  width: 173px;
+  height: 36px;
+  font-family: Work Sans;
+  font-weight: 500;
+  color:#306685;
+  background-color: #CBD6DC;
+  text-align: center;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+ }
+ .photo-container span {
+  font-family: Work Sans;
+  font-weight: 400;
+  font-size: 10px;
+  margin-top: 5px;
   
+ }
+ .form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+ }
+ 
