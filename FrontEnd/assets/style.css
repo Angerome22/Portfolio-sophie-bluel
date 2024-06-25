@@ -370,8 +370,8 @@ padding: 0;
 }
 .js-modal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;  
+  top: 20px;
+  right: 20px;  
   border: none;
   background: none;
  
@@ -379,8 +379,13 @@ padding: 0;
 #titlemodal {
   width: 100%;
   height: 30px;
-  margin-top: 60px;
+  margin-top: 40px;
+  margin-bottom: 40px ;
   align-items: center;
+  font-family: work Sans;
+  color : #000000;
+  font-weight: 400;
+  font-size: 26px;
 }
 .js-ajout-photo { 
   position: relative; 
@@ -388,21 +393,54 @@ padding: 0;
   font-family: "Syne";  
   font-weight: 700;
   color: white;
-  background-color: #1d6154;
-  margin-top: 500px;
+  background-color: #1d6154; 
   width: 180px;
   text-align: center;
   border-radius: 60px;
   border: none;  
-  outline: none;   
+  outline: none;  
+  padding: 8px 22px; 
+  margin-top: 100px;
 }
 .js-ajout-photo::before {
   content: "";
   position: absolute;  /* Positionne le pseudo-élément par rapport à son parent */
-  top: -40px;  /* Ajuste la position verticale du trait */
+  top: -35px;  /* Ajuste la position verticale du trait */
   left: 50%;
   transform: translateX(-50%);  /* Centre horizontalement le trait */
   width: 420px;  /* Ajuste la largeur du trait */
   height: 1px;  /* Ajuste la hauteur du trait */
   background-color: #B3B3B3;  /* Couleur du trait */
 }
+.galleryPhotoModal {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr) ; /* Ajuste les colonnes automatiquement */
+  gap: 30px 10px; /* Espace entre les photos */
+  margin-top: 20px;
+  width: 420px;
+}
+.galleryPhotoModal figure {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  width: 78.86px;
+  height: 102.57px;
+  
+}
+.galleryPhotoModal img {
+  width: 78.86px;
+  height: 102.57px; 
+  object-fit: cover; 
+}
+.trash-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color:white;
+  font-size: 17px; /* Ajuste la taille de l'icône selon vos besoins */
+  width: 17px;
+  height: 17px;
+  background-color: black;
+  }
+  
