@@ -1,4 +1,4 @@
-    document.getElementById("loginForm").addEventListener("submit", async function(event) {
+  /*  document.getElementById("loginForm").addEventListener("submit", async function(event) {
 //permet de ne pas envoyer le formulaire tout de suite    
         event.preventDefault();
 //on declare les constantes qui vont récupérer les value de chaque input   
@@ -38,4 +38,4 @@
 
 
 
-// 
+// */
