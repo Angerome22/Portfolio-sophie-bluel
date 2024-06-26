@@ -487,7 +487,23 @@ i.fa-solid.fa-trash-can.trash-icon::before{
   border-radius: 50px;
   border: none;
   outline: none;
+  z-index:0;
  }
+ .btn-ajout-fichier {
+  z-index:0;  
+  font-family: Work Sans;
+  font-weight: 500;
+  color:#306685;
+  padding: 10px 0px;
+ }
+.btn-ajout-fichier input {
+  z-index:1;
+  opacity:0;  
+}
+.btn-ajout-fichier:hover {
+  background-color: #B9C5CC;
+}
+
  .photo-container span {
   font-family: Work Sans;
   font-weight: 400;
@@ -501,8 +517,10 @@ i.fa-solid.fa-trash-can.trash-icon::before{
   align-items: center;
   justify-content: center;
  }
- button .js-modal-back {
+ button.js-modal-back {
   border: none;
+  background-color: #fff;
+
  }
 .ajout {
     display: flex;
@@ -559,4 +577,18 @@ i.fa-solid.fa-trash-can.trash-icon::before{
   width: 420px;  /* Ajuste la largeur du trait */
   height: 1px;  /* Ajuste la hauteur du trait */
   background-color: #B3B3B3;  /* Couleur du trait */
+}
+.btn-ajout-fichier:hover {
+  background-color: ;
+
+}
+.js-modal-back {
+  border: none;
+  background-color: #fff;
+}
+.js-modal-back i {
+  font-size: 20px; /* Adjust the size as needed */
+}
+.js-modal-back:hover i {
+  color: inherit; /* Prevent color change on hover */
 }
