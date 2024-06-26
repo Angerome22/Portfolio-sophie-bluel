@@ -63,18 +63,23 @@
 						<div class="photo-container">
 							<i class="fa-regular fa-image"></i>					
 							<button class="btn-ajout-fichier">+ Ajouter photo</button>
-							<span>jpeg, png: 4mo max</span>							
+							<span>jpeg, png: 4mo max</span>	
+							</div>
+						<div class="ajout">	
+						<label for="titre" class="ajout-nom">Titre</label>
+						<input type="text" name="titre" id="titre" class="ajout-nom">
 						</div>
-						<label for="titre">Titre</label>
-						<input type="text" name="titre" id="titre">
-						<label for="categorie">Catégorie</label>
-						<select name="categorie" id="categorie">
+						<div class="ajout">
+						<label for="categorie" class="ajout-categorie">Catégorie</label>
+						<select name="categorie" id="categorie" class="ajout-categorie">
 							<option value=""></option>
 								<option value="Objets">Objets</option>						
 								<option value="Appartements">Appartements</option>
 								<option value="Hotels & restaurants">Hotels & restaurants</option>
-						</select>			
-						<input type="submit" value="Valider">
+						</select>
+						</div>													
+						<input type="submit" value="Valider" class="ajout-photo">
+							
 					</form>			
 					</div>	
         			</div>				

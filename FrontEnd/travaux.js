@@ -292,7 +292,7 @@ function genererGaleriePhotoModal(listePhotos) {
     })
  
  // appel de la fonction fetchData pour initialiser les travaux et les filtres
- fetchData();
+ //fetchData();
 
 //--------------------------fonction pour le login à la page de connexion---------------------------------------------------------
 

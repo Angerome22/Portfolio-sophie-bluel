@@ -468,6 +468,8 @@ i.fa-solid.fa-trash-can.trash-icon::before{
     padding: 15px 0px;
     align-items: center;
     justify-content: center;
+    margin-left: 85px;
+
 
   }
   i.fa-regular.fa-image::before {
@@ -499,4 +501,62 @@ i.fa-solid.fa-trash-can.trash-icon::before{
   align-items: center;
   justify-content: center;
  }
- 
+ button .js-modal-back {
+  border: none;
+ }
+.ajout {
+    display: flex;
+    flex-direction: column;    
+    margin: 20px 85px; 
+    width:420px;
+    height:51px;
+ }
+ .ajout label{
+  margin-bottom: 5px;
+
+ }
+ .ajout input{
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-shadow: 0px 4px 14px 0px #00000017;
+  
+ }
+ .ajout select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-shadow: 0px 4px 14px 0px #00000017;
+ }
+ .ajout-categorie .ajout-nom {
+  font-family: Work Sans;
+  font-size:14px;
+  font-weight: 500;
+ }
+  .ajout-photo {  
+  height: 36px;
+  font-family: "Syne";  
+  font-weight: 700;
+  color: white;
+  background-color: #1d6154; 
+  width: 180px;
+  text-align: center;
+  border-radius: 60px;
+  border: none;  
+  outline: none;  
+  padding: 8px 22px; 
+  margin-top: 100px;
+}
+  
+.ajout-photo::before {
+  content: "";
+  position: absolute;  /* Positionne le pseudo-élément par rapport à son parent */
+  top: -35px;  /* Ajuste la position verticale du trait */
+  left: 50%;
+  transform: translateX(-50%);  /* Centre horizontalement le trait */
+  width: 420px;  /* Ajuste la largeur du trait */
+  height: 1px;  /* Ajuste la hauteur du trait */
+  background-color: #B3B3B3;  /* Couleur du trait */
+}
