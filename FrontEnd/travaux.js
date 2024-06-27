@@ -278,7 +278,7 @@ function genererGaleriePhotoModal(listePhotos) {
                 });
                 backButton.addEventListener("click", () => {
                   // Afficher la première partie de la modale
-                  modal1.querySelector(".galleryPhotoModal").style.display = "block";
+                  modal1.querySelector(".galleryPhotoModal").style.display = "grid";
                   ajoutPhotoButton.style.display = "block";
                   modal1.querySelector("h2").style.display = "block"; // Afficher le titre "Galerie photo"
                   modal1.querySelector(".js-modal-close").style.display = "block"; // Afficher le bouton close
@@ -288,7 +288,50 @@ function genererGaleriePhotoModal(listePhotos) {
   
               modal2.querySelector(".js-modal-close").addEventListener("click", closeModal);
           }
-      }    
+      }  
+    //---------------------------------pose de l'evenement sur le clik pour remplir la photo ------------------------  
+    document.querySelector('.btn-ajout-fichier input[type="file"]').addEventListener('change', function(event) {
+        const file =event.target.files[0];
+        if (file){
+        const reader = new FileReader();
+        reader.onload = function (e){
+          const photoContainer = document.querySelector(".photo-container");
+          photoContainer.innerHTML = "";// efface ce qui existe
+
+          const img= document.createElement("img");//on creer la balise image 
+          img.src = e.target.result;
+          img.style.maxWidth = "100%";
+          img.style.maxHeight = "169px";
+
+          photoContainer.appendChild(img);  //on associe l'image au bloc photoContainer       
+
+        }
+        reader.readAsDataURL(file);
+        }
+
+      })
+      // voir pour fonction envoi formulaire et communication avec l'api -------------------//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     })
  
  // appel de la fonction fetchData pour initialiser les travaux et les filtres

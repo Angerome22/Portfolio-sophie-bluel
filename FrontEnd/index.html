@@ -59,12 +59,12 @@
 						<button class="js-modal-back"><i class="fa-solid fa-arrow-left"></i></button>
 						<button class="js-modal-close"><i class="fa-solid fa-xmark"></i></button>
 					<h2 id="titlemodal">Ajout photo</h2>
-					<form action="#" method="post">
+					<form enctype="multipart/form-data" method="post" name=""fileInfo>
 						<div class="photo-container">
 							<i class="fa-regular fa-image"></i>					
-							<button class="btn-ajout-fichier">+ Ajouter photo<input type="file"></button>
+							<button class="btn-ajout-fichier">+ Ajouter photo<input type="file" name="file" required></button>
 							<span>jpeg, png: 4mo max</span>	
-							</div>
+						</div>
 						<div class="ajout">	
 						<label for="titre" class="ajout-nom">Titre</label>
 						<input type="text" name="titre" id="titre" class="ajout-nom">
@@ -77,8 +77,9 @@
 								<option value="Appartements">Appartements</option>
 								<option value="Hotels & restaurants">Hotels & restaurants</option>
 						</select>
-						</div>													
-						<input type="submit" value="Valider" class="ajout-photo ajout-photo-modal2">
+						</div>
+																		
+						<input type="submit" value="Valider" class="valider-photo ">
 							
 					</form>			
 					</div>	
