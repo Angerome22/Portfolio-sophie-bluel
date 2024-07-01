@@ -14,6 +14,8 @@ if (token){
 fetchData();
 
 
+
+
 function afficherInterfaceAdmin(){
   const divFiltreCategories = document.querySelector(".filtre-categories");
   if (divFiltreCategories){
@@ -120,6 +122,94 @@ window.addEventListener("keydown" , function(e) {
 })
 
  //-----------------------------------------------------------------fin de la modale----------------------------------------------------------//
+
+//---------------------------------pose de l'evenement sur le clik pour remplir la photo ------------------------
+
+const fileInput = document.querySelector('input[type="file"]');
+    const photoContainer = document.querySelector(".photo-container");
+  
+    fileInput.addEventListener("change", function () {
+      const file = fileInput.files[0];
+  
+      if (file) {
+        const reader = new FileReader();
+  
+        reader.onload = function (e) {
+          // On crée un élément image pour afficher la photo sélectionnée
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          img.alt = "Aperçu de la photo";
+          img.style.maxWidth = "100%";
+          img.style.maxHeight = "169px";
+  
+          // On efface le contenu précédent du conteneur avant d'ajouter la nouvelle image
+          photoContainer.innerHTML = "";
+          photoContainer.appendChild(img);
+        };
+  
+        reader.readAsDataURL(file);
+      } else {
+        // Gérer le cas où aucun fichier n'est sélectionné ou si le fichier n'est pas une image
+        photoContainer.innerHTML = "Aucune image sélectionnée";
+      }
+    });
+
+
+    //----------------------validation du formulaire pour les données en POST-------------------//
+
+    const photoForm = document.getElementById("photoForm");
+
+  photoForm.addEventListener("submit", async function (event) {
+    event.preventDefault(); // Prévenir le comportement par défaut du formulaire
+
+    // Récupérer les valeurs du formulaire
+    const title = document.getElementById("titre").value;
+    const category = document.getElementById("categorie").value;
+
+    // Vérifier que le fichier et les champs sont remplis
+    if (!fileInput.files.length || !title || !category) {
+      alert("Veuillez sélectionner une photo, entrer un titre et choisir une catégorie.");
+      return;
+    }
+
+    const file = fileInput.files[0];
+    const formData = new FormData();
+    formData.append("image", file, file.name);
+    formData.append("title", title);
+    formData.append("categoryId", category);
+
+    // Log formData entries for debugging
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+    try {
+      const response = await fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      const responseData = await response.json();
+      console.log(responseData); // Log response data for debugging
+
+      if (response.ok) {
+        // Réponse réussie, on peut mettre à jour l'interface utilisateur
+        await fetchData(); // Recharger les données des projets
+        closeModal(event); // Fermer la modale après ajout
+      } else {
+        // Gestion des erreurs
+
+       
+        alert(errorData.message || "Une erreur est survenue lors de l'ajout de la photo.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'envoi de la requête :", error);
+      alert("Une erreur est survenue lors de l'envoi de la photo.");
+    }
+  });
 
 
   function afficherInterfaceClassique() {
@@ -289,48 +379,7 @@ function genererGaleriePhotoModal(listePhotos) {
               modal2.querySelector(".js-modal-close").addEventListener("click", closeModal);
           }
       }  
-    //---------------------------------pose de l'evenement sur le clik pour remplir la photo ------------------------  
-    document.querySelector('.btn-ajout-fichier input[type="file"]').addEventListener('change', function(event) {
-        const file =event.target.files[0];
-        if (file){
-        const reader = new FileReader();
-        reader.onload = function (e){
-          const photoContainer = document.querySelector(".photo-container");
-          photoContainer.innerHTML = "";// efface ce qui existe
-
-          const img= document.createElement("img");//on creer la balise image 
-          img.src = e.target.result;
-          img.style.maxWidth = "100%";
-          img.style.maxHeight = "169px";
-
-          photoContainer.appendChild(img);  //on associe l'image au bloc photoContainer       
-
-        }
-        reader.readAsDataURL(file);
-        }
-
-      })
-      // voir pour fonction envoi formulaire et communication avec l'api -------------------//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
 
     })
  
