@@ -61,10 +61,11 @@
 					<h2 id="titlemodal">Ajout photo</h2>
 
 					<form  id="photoForm" enctype="multipart/form-data" method="post" name="fileInfo">
-						<div class="photo-container">
+						<div class="photo-container" id="photoContainer">
 							<i class="fa-regular fa-image"></i>					
-							<button class="btn-ajout-fichier">+ ajouter photo<input type="file" name="file" required></button>
+							<button class="btn-ajout-fichier">+ ajouter photo<input type="file" id="imageInput" name="file" required></button>
 							<span>jpeg, png: 4mo max</span>	
+							<div id="imagePreviewContainer"></div><!--conteneur pour l'aperçu de l'image-->
 						</div>
 						<div class="ajout">	
 						<label for="titre" class="ajout-nom">Titre</label>
