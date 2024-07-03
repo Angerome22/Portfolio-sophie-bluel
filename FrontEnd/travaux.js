@@ -184,17 +184,17 @@ photoForm.addEventListener("submit", async function(event) {
     "Hotels & restaurants": 3
   };
 
-  const categorieId = categoriesMap[categorieName];
-
-  if (!categorieId) {
+ const categoryId = categoriesMap[categorieName];
+ /*
+  if (!categoryId) {
     console.error("Erreur: la catégorie sélectionnée n'est pas valide.");
     return;
-  }
+  }*/
 
   const formData = new FormData();
   formData.append("image", file, file.name);
   formData.append("title", title);
-  formData.append("categoryId", categorieId);
+  formData.append("category", categoryId);
 
   // Log formData entries for debugging
   for (const [key, value] of formData.entries()) {
