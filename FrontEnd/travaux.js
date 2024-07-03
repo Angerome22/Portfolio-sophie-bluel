@@ -122,102 +122,113 @@ window.addEventListener("keydown" , function(e) {
 })
 
  //-----------------------------------------------------------------fin de la modale----------------------------------------------------------//
-
-//---------------------------------pose de l'evenement sur le clik pour remplir la photo ------------------------
+ //---------------------------------pose de l'evenement sur le clik pour remplir la photo ------------------------
+// Sélection des éléments nécessaires
 const imageInput = document.getElementById("imageInput");
-const imagePreviewContainer = document.getElementById("imagePreviewContainer");
+const photoContainer = document.getElementById("photoContainer");
 
-imageInput.addEventListener("change", function(){
-  const file =imageInput.files[0];
-  if (file){
+
+// Fonction pour prévisualiser l'image sélectionnée
+function previewImage() {
+  const file = imageInput.files[0];
+  if (file) {
     console.log("Fichier sélectionné:", file); //pour info dans la console 
     const reader = new FileReader();
     reader.onload = function(event) {
-        const imgElement = document.createElement("img");
-        imgElement.src = event.target.result;
-        imgElement.style.maxWidth = "100%";
-        imgElement.style.maxHeight = "169px";
-        photoContainer.innerHTML = ""; // on met à blanc la div photo-container
-        photoContainer.appendChild(imgElement);
-    }
+      const imgElement = document.createElement("img");
+      imgElement.src = event.target.result;
+      imgElement.style.maxWidth = "100%";
+      imgElement.style.maxHeight = "169px";
+      photoContainer.innerHTML = ""; // on met à blanc la div photo-container
+      photoContainer.appendChild(imgElement);
+    };
     reader.readAsDataURL(file);   
+  }
 }
+
+// Ajouter l'écouteur d'événement sur l'input pour afficher l'image lors de la sélection du fichier
+imageInput.addEventListener("change", previewImage);
+
+//----------------------vérifier et utiliser formData pour valider le formulaire et poster la requête--------------//
+// Ajouter l'écouteur d'événement sur le formulaire pour le soumettre
+photoForm.addEventListener("submit", async function(event) {
+  event.preventDefault(); // Prévenir le comportement par défaut du formulaire
+
+  // Récupérer les valeurs du formulaire
+  const title = document.getElementById("titre").value;
+  const categorySelect = document.getElementById("categorie");
+
+  // Vérifier que les champs sont remplis
+  if (!imageInput.files.length) {
+    alert("Veuillez sélectionner une photo.");
+    return;
+  }
+
+  if (!title) {
+    alert("Veuillez entrer un titre.");
+    return;
+  }
+
+  if (!categorySelect.value) {
+    alert("Veuillez choisir une catégorie.");
+    return;
+  }
+
+  const file = imageInput.files[0];
+  const categorieName = categorySelect.value;
+
+  // Mapping des noms de catégories vers leurs IDs
+  const categoriesMap = {
+    "Objets": 1,
+    "Appartements": 2,
+    "Hotels & restaurants": 3
+  };
+
+  const categorieId = categoriesMap[categorieName];
+
+  if (!categorieId) {
+    console.error("Erreur: la catégorie sélectionnée n'est pas valide.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("image", file, file.name);
+  formData.append("title", title);
+  formData.append("categoryId", categorieId);
+
+  // Log formData entries for debugging
+  for (const [key, value] of formData.entries()) {
+    console.log(`${key}: ${value}`);
+  }
+
+  try {
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      },
+      body: formData
+    });
+
+    const responseData = await response.json();
+    console.log(responseData); // Log response data for debugging
+
+    if (response.ok) {
+      // Réponse réussie, on peut mettre à jour l'interface utilisateur
+      await fetchData(); // Recharger les données des projets
+      closeModal(event); // Fermer la modale après ajout
+    } else {
+      // Gestion des erreurs
+      const errorData = await response.json();
+      alert(errorData.message || "Une erreur est survenue lors de l'ajout de la photo.");
+    }
+  } catch (error) {
+    console.error("Erreur lors de l'envoi de la requête :", error);
+    alert("Une erreur est survenue lors de l'envoi de la photo.");
+  }
 });
 
-//----------validation du formulaire avec controle des élémenst envoyés avec POST et fetch pour la requête------//
-    //----------------------validation du formulaire pour les données en POST-------------------//
 
-    const photoForm = document.getElementById("photoForm");
-
-  photoForm.addEventListener("submit", async function (event) {
-    event.preventDefault(); // Prévenir le comportement par défaut du formulaire
-
-    // Récupérer les valeurs du formulaire
-    const title = document.getElementById("titre").value;
-    const fileInput = document.getElementById("image");
-    const categorySelect = document.getElementById("categorie");
-
-
-    //Vérifier que le fichier et les champs sont remplis
-   /* if (!fileInput.files.length || !title || !categorySelect.value) {
-      alert("Veuillez sélectionner une photo, entrer un titre et choisir une catégorie.");
-      return;
-    }*/
-      const file = fileInput.files[0];
-      const categorieName = categorySelect.value;
-
-        // Mapping des noms de catégories vers leurs IDs
-        const categoriesMap = {
-            "Objets": 2,
-            "Appartements": 3,
-            "Hotels & restaurants": 4
-        };
-
-        const categorieId = categoriesMap[categorieName];
-
-        if (!categorieId) {
-            console.error("Erreur: la catégorie sélectionnée n'est pas valide.");
-            return;
-        }      
-        
-   
-    const formData = new FormData();
-    formData.append("image", file, file.name);
-    formData.append("title", title);
-    formData.append("categoryId", categorieId);
-
-    // Log formData entries for debugging
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
-    try {
-      const response = await fetch("http://localhost:5678/api/works", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`
-        },
-        body: formData
-      });
-
-      const responseData = await response.json();
-      console.log(responseData); // Log response data for debugging
-
-      if (response.ok) {
-        // Réponse réussie, on peut mettre à jour l'interface utilisateur
-        await fetchData(); // Recharger les données des projets
-        closeModal(event); // Fermer la modale après ajout
-      } else {
-        // Gestion des erreurs
-
-        const errorData = await response.json();
-        alert(errorData.message || "Une erreur est survenue lors de l'ajout de la photo.");
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'envoi de la requête :", error);
-      alert("Une erreur est survenue lors de l'envoi de la photo.");
-    }
-  });
 //----------------------------------------fin de validation formulaire et envoi requête--------------------------------//
 
   function afficherInterfaceClassique() {
