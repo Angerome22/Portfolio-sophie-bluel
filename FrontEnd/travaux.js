@@ -215,6 +215,7 @@ photoForm.addEventListener("submit", async function(event) {
 
     if (response.ok) {
       // Réponse réussie, on peut mettre à jour l'interface utilisateur
+      alert("Le fichier a été envoyé avec succès.");      
       await fetchData(); // Recharger les données des projets
       closeModal(event); // Fermer la modale après ajout
     } else {
