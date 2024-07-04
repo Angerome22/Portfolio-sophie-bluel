@@ -267,10 +267,13 @@ button:hover {
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
+ 
 }
 
 .gallery img {
   width: 100%;
+  object-fit: cover;
+  height:100%;
 }
 #contact, #login {
   width: 50%;
