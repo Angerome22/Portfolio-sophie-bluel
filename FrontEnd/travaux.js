@@ -419,7 +419,7 @@ function ajouterListenerSuppressionPhoto () {
 
                 if (confirm("confirmer la suppression de la photo")) {
                   try{
-                    const suppPhoto = await fetch("http://localhost:5678/api/works/${photoId}" , {
+                    const suppPhoto = await fetch(`http://localhost:5678/api/works/${photoId}`, {
                       method: "DELETE",
                       headers: {
                         "Authorization": `Bearer ${token}`
@@ -431,9 +431,9 @@ function ajouterListenerSuppressionPhoto () {
                       figure.remove();
                     }
                     alert("La photo a été supprimée avec succés");        
-                    //closeModal(event); // Fermer la modale après supp
+                    closeModal(event); // Fermer la modale après supp
                     //
-                   //await fetchData(); // Recharger les données des projets
+                   await fetchData(); // Recharger les données des projets
                     
                   }  else {
                       const errorData = await suppPhoto.json();
