@@ -81,7 +81,8 @@ const closeModal =  function (e) {
   modal.removeEventListener("click", closeModal)
   modal.querySelector(".js-modal-close").removeEventListener("click", closeModal)
   modal.querySelector(".js-modal-stop").removeEventListener("click", stopPropagation)
-  modal = null  
+  modal = null 
+  
 }
 
 const stopPropagation = function (e) {
@@ -121,7 +122,7 @@ window.addEventListener("keydown" , function(e) {
   }
 })
 
- //-----------------------------------------------------------------fin de la modale----------------------------------------------------------//
+ //-----------------------------------------------------------------fin de la modale----------------------------------------------------------// 
  //---------------------------------pose de l'evenement sur le clik pour remplir la photo ------------------------
 // Sélection des éléments nécessaires
 const imageInput = document.getElementById("imageInput");
@@ -148,7 +149,7 @@ function previewImage() {
 
 // Ajouter l'écouteur d'événement sur l'input pour afficher l'image lors de la sélection du fichier
 imageInput.addEventListener("change", previewImage);
-
+const photoForm = document.getElementById("photoForm");
 //----------------------vérifier et utiliser formData pour valider le formulaire et poster la requête--------------//
 // Ajouter l'écouteur d'événement sur le formulaire pour le soumettre
 photoForm.addEventListener("submit", async function(event) {
@@ -217,6 +218,7 @@ photoForm.addEventListener("submit", async function(event) {
       // Réponse réussie, on peut mettre à jour l'interface utilisateur
       alert("Le fichier a été envoyé avec succès.");      
       await fetchData(); // Recharger les données des projets
+      photoContainer.innerHTML = "";
       closeModal(event); // Fermer la modale après ajout
     } else {
       // Gestion des erreurs
@@ -259,7 +261,7 @@ genererTravaux(listeTravaux);
 genererFiltres(listeCategories, listeTravaux);
 ajouterListenerFiltres(listeTravaux);
 genererGaleriePhotoModal(listeTravaux);
-
+ajouterListenerSuppressionPhoto();
 }
 
 //----------------------Construction de la fonction qui va permettre de récupérer tous les travaux depuis l'API---------------------------
@@ -357,25 +359,30 @@ function genererGaleriePhotoModal(listePhotos) {
             const projetItemModal = document.createElement("figure");
 
             const logoSupp = document.createElement("i");
-            logoSupp.classList.add("fa-solid", "fa-trash-can", "trash-icon");            
+            logoSupp.classList.add("fa-solid", "fa-trash-can", "trash-icon");
+            logoSupp.id = "suppPhoto"; 
+            logoSupp.dataset.photoId = photo.id; //Ajouter l'ID du photo pour référence          
 
             const imageItemModal = document.createElement("img");
             imageItemModal.src = photo.imageUrl;
            
             const categoryIdPhoto = document.createElement("p");
-            categoryIdPhoto.innerText = photo.categoryId;
+            categoryIdPhoto.id = "categoryPhoto";
+            categoryIdPhoto.innerText = photo.categoryId;            
             categoryIdPhoto.style.display = "none";
 
             projetItemModal.appendChild(logoSupp);
             projetItemModal.appendChild(imageItemModal);
             projetItemModal.appendChild(categoryIdPhoto);
             divgalleryPhotoModal.appendChild(projetItemModal);
+
+           
         }
         const ajoutPhotoButton = document.querySelector(".js-ajout-photo");
         const modal1 = document.getElementById("modal1");
         const modal2 = document.querySelector(".modal2");
         const backButton = document.querySelector(".js-modal-back");
-
+       
             if (ajoutPhotoButton && modal1 && modal2 && backButton) {
                 ajoutPhotoButton.addEventListener("click", () => {
                     // Cacher la première partie de la modale
@@ -394,14 +401,57 @@ function genererGaleriePhotoModal(listePhotos) {
                   modal1.querySelector(".js-modal-close").style.display = "block"; // Afficher le bouton close
                   // Cacher la seconde partie de la modale
                   modal2.style.display = "none";
+                  
               });
   
               modal2.querySelector(".js-modal-close").addEventListener("click", closeModal);
+             
           }
       }  
+//-------ajout evenement sur le click de l'icone trash-can pour supprimer un travail---------------------------------//
+function ajouterListenerSuppressionPhoto () {
+           const trashIcons = document.querySelectorAll(".trash-icon");
+           trashIcons.forEach(icon => {
+              icon.addEventListener("click", async (event) => {
+                const photoId = event.target.dataset.photoId;
+                console.log(photoId);
+                const token = localStorage.getItem("authToken");
+
+                if (confirm("confirmer la suppression de la photo")) {
+                  try{
+                    const suppPhoto = await fetch("http://localhost:5678/api/works/${photoId}" , {
+                      method: "DELETE",
+                      headers: {
+                        "Authorization": `Bearer ${token}`
+                      }
+                    });
+                  if (suppPhoto.ok) {                                                  
+                    const figure = event.target.closest("figure");
+                    if (figure) {
+                      figure.remove();
+                    }
+                    alert("La photo a été supprimée avec succés");        
+                    //closeModal(event); // Fermer la modale après supp
+                    //
+                   //await fetchData(); // Recharger les données des projets
+                    
+                  }  else {
+                      const errorData = await suppPhoto.json();
+                      alert(errorData.message || "Erreur lors de la suppression de la photo");
+                  }
+                } catch (error) {
+                  console.error("Erreur lors de la suppression de la photo :", error);
+                  alert("Une erreur est survenue lors de la suppression de la photo.");
+              }
+          }
+      });
+  }); 
+};    
+
+        
   
 
-    })
+    });//-------------fermeture de l'écoute du DOMContentLOAD
  
  
 
