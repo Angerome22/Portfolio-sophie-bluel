@@ -12,6 +12,8 @@ if (token){
 
 }
 fetchData();
+
+
 //---------------------------------------------------PAGE EN MODE ADMIN------------------------------------//
 function afficherInterfaceAdmin(){
   const divFiltreCategories = document.querySelector(".filtre-categories");
@@ -144,15 +146,60 @@ function previewImage() {
 }
 imageInput.addEventListener("change", previewImage);
 
+//-------------------ajout des balises label select et option pour la liste des categories dans la modale 2----//
+//creation de la balise select en fonction et rappel en fonction des catégories de l'api//
+  /*<label for="categorie" class="ajout-categorie">Catégorie</label>*/
+  /*<select name="categorie" id="categorie" class="ajout-categorie">
+							<option value=""></option>
+								<option value="Objets">Objets</option>						
+								<option value="Appartements">Appartements</option>
+								<option value="Hotels & restaurants">Hotels & restaurants</option>
+						</select>*/
+function genererCategorieModalAjoutPhoto (listeCategories){
+
+const labelCategory = document.querySelector(".ajout-categorie")
+ labelCategory.innerHTML = "";
+
+const titleCategory = document.createElement("label");
+titleCategory.classList.add("ajout-categorie");
+titleCategory.textContent = "Catégorie";
+const choiceCategory = document.createElement("select");
+choiceCategory.setAttribute = ("name" , "categorie");
+choiceCategory.classList.add("ajout-categorie");
+choiceCategory.id = "categorie";
+labelCategory.appendChild(titleCategory);
+labelCategory.appendChild(choiceCategory);  
+//-------------------option value à blanc en premier-------------//
+const optionCategoryEmpty = document.createElement("option");
+optionCategoryEmpty.innerText = "";
+choiceCategory.appendChild(optionCategoryEmpty);
+//boucle pour afficher le nom de chaque catégorie de l'api dans les options du select
+for (let i = 0; i < listeCategories.length; i++) {
+  //console.log("test");
+  const optionCategory = document.createElement("option");
+  //recup de l'id du bouton pour le futur event listener
+  optionCategory.dataset.id = listeCategories[i].id;
+  //console.log(optionCategory.dataset.id); //affiche bien 1 2 et 3 dans la console
+  optionCategory.value = listeCategories[i].id;
+  optionCategory.innerText = listeCategories[i].name;
+  choiceCategory.appendChild(optionCategory);
+}
+}
+
 //----------------------SOUMISSION DU FORMULAIRE AVEC FORMDATA ET ENVOI REQUETE AJOUT NOUVEAU TRAVAIL--------------//
 const photoForm = document.getElementById("photoForm");
 
 // Ajouter l'écouteur d'événement sur le formulaire pour le soumettre
 photoForm.addEventListener("submit", async function(event) {
   event.preventDefault(); 
+
   // Récupérer les valeurs du formulaire
   const title = document.getElementById("titre").value;
+  console.log("title");
   const categorySelect = document.getElementById("categorie");
+  const categoryId = categorySelect.options[categorySelect.selectedIndex].dataset.id;
+  console.log("Selected Category ID:", categoryId);
+
   // Vérifier que les champs sont remplis 
   if (!imageInput.files.length) {
     alert("Veuillez sélectionner une photo.");
@@ -162,15 +209,15 @@ photoForm.addEventListener("submit", async function(event) {
     alert("Veuillez entrer un titre.");
     return;
   }
-  if (!categorySelect.value) {
+  if (!categoryId) {
     alert("Veuillez choisir une catégorie.");
     return;
   }
 
   const file = imageInput.files[0];
-  const categorieName = categorySelect.value;
+  
 
-  // Mapping des noms de catégories vers leurs IDs
+ /* // Mapping des noms de catégories vers leurs IDs
   const categoriesMap = {
     "Objets": 1,
     "Appartements": 2,
@@ -210,8 +257,14 @@ photoForm.addEventListener("submit", async function(event) {
       // Réponse réussie, on peut mettre à jour l'interface utilisateur
       alert("Le fichier a été envoyé avec succès.");      
       await fetchData(); // Recharger les données des projets
-      //photoContainer.innerHTML = "";      
+      //resetForm();
+      photoContainer.innerHTML = '<i class="fa-regular fa-image"></i><button class="btn-ajout-fichier">+ ajouter photo<input type="file" accept="image/*" id="imageInput" name="files"></button><span>jpeg, png: 4mo max</span>';  
+      titre.innerHTML = "";
+      categorie.innerHTML = "";
+      
+
       closeModal(event); // Fermer la modale après ajout
+      //openModalById('modal1'); // Rediriger vers la modal
     } else {
       // Gestion des erreurs
       const errorData = await response.json();
@@ -222,8 +275,30 @@ photoForm.addEventListener("submit", async function(event) {
     alert("Une erreur est survenue lors de l'envoi de la photo.");
   }
 });
+
+//----------------------------FONCTION DE RESET POUR LE FORMULAIRE D'AJOUT DE L'IMAGE APRES L'ENVOI REUSSIT-------------//
+/*
+function resetForm() {
+  document.getElementById("photoForm").reset();
+  photoContainer.innerHTML = '<i class="fa-regular fa-image"></i><button class="btn-ajout-fichier">+ ajouter photo<input type="file" accept="image/*" id="imageInput" name="files"></button><span>jpeg, png: 4mo max</span>';
+  document.getElementById("submitButton").style.backgroundColor = "";
+  document.getElementById("submitButton").style.color = "";
+  document.getElementById("submitButton").disabled = true;
+  imageInput.addEventListener("change", previewImage);
+  imageInput.addEventListener("change", majboutonSubmitValide);
+ // document.getElementById("titre").addEventListener("input", majboutonSubmitValide);
+ // document.getElementById("categorie").addEventListener("change", majboutonSubmitValide);
+  openModalById('modal1'); // Rediriger vers la modal
+}
+function openModalById(modalId) {
+  const modalLink = document.querySelector(`a[href="#${modalId}"]`);
+  if (modalLink) {
+      modalLink.click();
+  }
+}*/
+
 //-------------sur le remplissage correcte du formulaire on change le bouton valider en fonds vert et écriture blanche--------------
-function majboutonSubmitValide() {
+/*function majboutonSubmitValide() {
   const title = document.getElementById("titre").value;
   const categorySelect = document.getElementById("categorie");
   const submitButton = document.getElementById("submitButton");
@@ -242,7 +317,7 @@ function majboutonSubmitValide() {
 
 imageInput.addEventListener("change", majboutonSubmitValide);
 document.getElementById("titre").addEventListener("input", majboutonSubmitValide);
-document.getElementById("categorie").addEventListener("change", majboutonSubmitValide);
+document.getElementById("categorie").addEventListener("change", majboutonSubmitValide);*/
 
 
 //----------------------------------------fin de validation formulaire et envoi requête--------------------------------//
@@ -276,6 +351,7 @@ genererFiltres(listeCategories, listeTravaux);
 ajouterListenerFiltres(listeTravaux);
 genererGaleriePhotoModal(listeTravaux);
 ajouterListenerSuppressionPhoto();
+genererCategorieModalAjoutPhoto(listeCategories);
 }
 
 //----------------------RECUPERATION DE TOUS LES TRAVAUX DEPUIS L'API---------------------------//
@@ -358,7 +434,7 @@ boutonFiltrerTous.addEventListener("click", () =>{
         genererTravaux(listeTravauxFiltres); 
       });
     }
- }
+ } 
 //----------------------------------GENERATION DES TRAVAUX DANS LA MODALE RECUPERE DEPUIS L'API--------------//
 
 function genererGaleriePhotoModal(listePhotos) {
@@ -446,8 +522,7 @@ function ajouterListenerSuppressionPhoto () {
                       figure.remove();
                     }
                     alert("La photo a été supprimée avec succés");        
-                    closeModal(event); // Fermer la modale après supp
-                    //
+                    closeModal(event); // Fermer la modale après supp                    
                    await fetchData(); // Recharger les données des projets
                     
                   }  else {
@@ -462,7 +537,7 @@ function ajouterListenerSuppressionPhoto () {
       });
   }); 
 };     
-  
+
 
     });//-------------fermeture de l'écoute du DOMContentLOAD
  
