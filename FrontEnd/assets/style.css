@@ -246,6 +246,7 @@ width:5px;
   height: 38px;
   margin-top: 35px;
   margin-bottom: 35px;
+ 
 }
 .btn-filtre, /*pour test*/
 .btn-tous {
@@ -264,12 +265,12 @@ button:hover {
 }
 /*---------------------------fin ajout filtre categorie---------------*/
 .gallery {
-  width: 100%;
+  width: 80%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
-  
+  margin-left: 100px;
 }
 
 .gallery img {
@@ -598,4 +599,17 @@ input.valider-photo {
   width: 420px;  /* Ajuste la largeur du trait */
   height: 1px;  /* Ajuste la hauteur du trait */
   background-color: #B3B3B3;  /* Couleur du trait */
+}
+#submitButton.enabled {
+  background-color: #1D6154; /* Changez cela en la couleur souhaitée */
+  cursor: pointer;
+}
+.mdpLost {
+  color : #3D3D3D;
+  font-family: Work Sans;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.42px;
+  text-align: center;
+
 }
