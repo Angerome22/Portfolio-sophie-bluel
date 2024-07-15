@@ -369,12 +369,7 @@ if (imageInput.files.length && title && categoryId) {
       alert("Le fichier a été envoyé avec succès.");      
       await fetchData(); // Recharger les données des projets
       resetModal();
-      /*submitButton.style.backgroundColor = "";
-      submitButton.style.color = "";
-      submitButton.disabled = true;
-      photoContainer.innerHTML = '<i class="fa-regular fa-image"></i><button class="btn-ajout-fichier">+ ajouter photo<input type="file" accept="image/*" id="imageInput" name="files"></button><span>jpeg, png: 4mo max</span>';  
-      title.textContent = "";
-      //categorie.innerHTML = "";*/
+      
       resetForm();
 
       closeModal(event); // Fermer la modale après ajout
