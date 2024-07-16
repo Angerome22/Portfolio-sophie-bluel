@@ -313,30 +313,38 @@ button:hover {
   object-fit: cover;
   height:407px;
 }
-#contact, #login {
-  width: 50%;
-  margin: auto;
+/*----------------------formulaire contact---------------------*/
+#contact, #login {    
+  width: 379px; 
+  margin-left: 530px;
 }
-#contact, #login > * {
+#contact p {
+  height: 19px;
+  width: 404px;
   text-align: center;
+
 }
 #contact h2,  #login h2 {
-  margin-bottom: 20px;
-  justify-content: center;
+  margin-bottom: 20px;  
+  margin-left: 121px;
+  
 }
 #contact form, #login form{
   text-align: left;
   margin-top: 30px;
   display: flex;
-  flex-direction: column;
- 
+  flex-direction: column;  
+  width: 379px;
+  
 }
 
 #contact input, #login input {
-  height: 50px;
+  width: 379px;
+  height: 51px;
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  justify-content: center;
 }
 #contact label, #login label {
   margin: 2em 0 1em 0;
@@ -344,6 +352,7 @@ button:hover {
 #contact textarea {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+
 }
 
 input[type="submit"] {
@@ -352,7 +361,7 @@ input[type="submit"] {
   color: white;
   background-color: #1d6154;
   margin: 2em auto;
-  width: 180px;
+  width: 179px;
   text-align: center;
   border-radius: 60px;
 }
@@ -363,10 +372,17 @@ input[type="submit"] {
   text-align: center;
 }
 
-footer nav ul {
+footer nav {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-end;   
+  height: 60px;
+  width: 1340px;
+}
+footer nav ul  {
+  align-items: end;
   margin: 2em;
+  
+  
 }
 
 /*-------------------------------------------------------------modale-----------------------------------------*/
