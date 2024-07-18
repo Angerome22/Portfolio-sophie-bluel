@@ -264,8 +264,12 @@ function ajouterListenerFiltres(listeTravaux) {
   // Fonction pour prévisualiser l'image sélectionnée
   function previewImage() {
     const file = imageInput.files[0];
-    if (file) {
+    const maxSizeInBites = 4 * 1024 *1024;
+    if (file && file.size > maxSizeInBites) {
       /*console.log("Fichier sélectionné:", file); //pour info dans la console */
+      alert("La taille du fichier dépasse la limite autorisée (4 Mo). Veuillez sélectionner un fichier plus petit.");
+      Input.value = "";
+    } else {
       const reader = new FileReader();
       reader.onload = function(event) {
         const imgElement = document.createElement("img");
@@ -375,7 +379,7 @@ if (imageInput.files.length && title && categoryId) {
       body: formData
     });
 
-    const responseData = await response.json();
+    /*const responseData = await response.json();
     /*console.log(responseData); // Log response data for debugging*/
 
     if (response.ok) {
