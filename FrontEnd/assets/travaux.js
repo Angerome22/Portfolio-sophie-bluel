@@ -30,8 +30,7 @@ if (loginButton) {
     if (logoutButton) {
             logoutButton.addEventListener("click", function() {            
             localStorage.removeItem("authToken");            
-            window.location.href = "index.html";
-            
+            logoutButton.href = "index.html";            
         });
     } else {
         console.log("Logout button not found");

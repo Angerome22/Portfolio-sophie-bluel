@@ -36,7 +36,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
                     // on desactive temporairement le window location et on peut voir dans la console le token
                     //console.log(token); 
                     // la connexion est réussie on retourne sur la page d'accueil en modification
-                    window.location.href = ("index.html");                                            
+                    window.location.href = ("index.html");                                                                
                 } else {
                     // on complete la balise p prevu pour les erreurs
                     const errorData = await reponseLogin.json();
