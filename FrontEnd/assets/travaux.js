@@ -228,18 +228,17 @@ function genererFiltres(listeCategories, listeTravaux) {
     boutonFiltrer.innerText = listeCategories[i].name;
     divFiltreCategories.appendChild(boutonFiltrer);
   }
-
-// -------------------------------------------------AJOUT DE LISTENER SUR BOUTONS FILTRES ---------------------
-/*boutonFiltrerTous.addEventListener("click", () =>{
-  genererTravaux(listeTravaux);
-})*/
 }
+// -------------------------------------------------AJOUT DE LISTENER SUR BOUTONS FILTRES ---------------------
+
+
 function ajouterListenerFiltres(listeTravaux) {
   const listeBoutons = document.querySelectorAll(".btn-filtre, .btn-tous");
   listeBoutons.forEach(bouton => {
     bouton.addEventListener("click", (event) => {
       // Retirer la classe active de tous les boutons
       listeBoutons.forEach(b => b.classList.remove("actif"));
+
 
       // Ajouter la classe active au bouton cliqué
       bouton.classList.add("actif");
@@ -255,29 +254,6 @@ function ajouterListenerFiltres(listeTravaux) {
     });
   });
 }
-
-
-/*boutonFiltrerTous.addEventListener("click", () =>{
-  genererTravaux(listeTravaux);
-})
-}
-
- function ajouterListenerFiltres(listeTravaux){
- 
-  const listeBoutons = document.querySelectorAll(".btn-filtre"); 
-    for (let i = 0; i < listeBoutons.length; i++) {      
-      const boutonActuel = listeBoutons[i];     
-      boutonActuel.addEventListener("click", (event) => {        
-        boutonActuel.style.backgroundColor = "#1d6154";
-        boutonActuel.style.color = "white";
-        const categoryId = parseInt(event.target.dataset.id, 10); 
-        const listeTravauxFiltres = listeTravaux.filter(travail => travail.categoryId === categoryId);
-        genererTravaux(listeTravauxFiltres); 
-      });
-    }*/
-  
-
-
  //-----------GESTION MODALE PARTIE 2 : SELECTION ET RECUPERATION D'UNE NOUVELLE PHOTO ET REMPLISSAGE DU CADRE PREVU ---------------//
 
   const imageInput = document.getElementById("imageInput");
