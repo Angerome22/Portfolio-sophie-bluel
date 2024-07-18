@@ -255,7 +255,7 @@ width:5px;
   font-size: 15px;
   margin-left: 10px;
 }
-/*---------------filtre des categories----------------------------*/
+/*---------------------------------filtre des categories----------------------------*/
 #portfolio p {
  display: none;
 }
@@ -294,10 +294,19 @@ width:5px;
 .btn-filtre[data-id="3"] {
   width: 198px;
 }
-button:hover {
+.btn-filtre.actif {
   background-color: #1d6154;
   color: white;
 }
+.btn-tous.actif{
+  background-color: #1d6154;
+  color: white;
+}
+
+/*button:hover {
+  background-color: #1d6154;
+  color: white;
+}*/
 /*---------------------------gallery photo---------------*/
 .gallery {
   width: 83.33%;

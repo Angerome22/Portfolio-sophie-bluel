@@ -213,7 +213,7 @@ function genererFiltres(listeCategories, listeTravaux) {
   divFiltreCategories.innerHTML= "";
   //creation de la balise button "tous" en dehors de la boucle puisque hors catégorie
   const boutonFiltrerTous = document.createElement("button");
-  boutonFiltrerTous.setAttribute("class", "btn-tous");
+  boutonFiltrerTous.setAttribute("class", "btn-tous actif");
   boutonFiltrerTous.textContent = "Tous";
   divFiltreCategories.appendChild(boutonFiltrerTous);
 
@@ -228,23 +228,54 @@ function genererFiltres(listeCategories, listeTravaux) {
     boutonFiltrer.innerText = listeCategories[i].name;
     divFiltreCategories.appendChild(boutonFiltrer);
   }
-// -------------------------------------------------AJOUT DE LISTENER SUR BOUTONS FILTRES ---------------------  
-boutonFiltrerTous.addEventListener("click", () =>{
+
+// -------------------------------------------------AJOUT DE LISTENER SUR BOUTONS FILTRES ---------------------
+/*boutonFiltrerTous.addEventListener("click", () =>{
+  genererTravaux(listeTravaux);
+})*/
+}
+function ajouterListenerFiltres(listeTravaux) {
+  const listeBoutons = document.querySelectorAll(".btn-filtre, .btn-tous");
+  listeBoutons.forEach(bouton => {
+    bouton.addEventListener("click", (event) => {
+      // Retirer la classe active de tous les boutons
+      listeBoutons.forEach(b => b.classList.remove("actif"));
+
+      // Ajouter la classe active au bouton cliqué
+      bouton.classList.add("actif");
+
+      // Appliquer le filtre
+      if (bouton.classList.contains("btn-tous")) {
+        genererTravaux(listeTravaux);
+      } else {
+        const categoryId = parseInt(event.target.dataset.id, 10);
+        const listeTravauxFiltres = listeTravaux.filter(travail => travail.categoryId === categoryId);
+        genererTravaux(listeTravauxFiltres);
+      }
+    });
+  });
+}
+
+
+/*boutonFiltrerTous.addEventListener("click", () =>{
   genererTravaux(listeTravaux);
 })
 }
 
  function ajouterListenerFiltres(listeTravaux){
+ 
   const listeBoutons = document.querySelectorAll(".btn-filtre"); 
-    for (let i = 0; i < listeBoutons.length; i++) {
+    for (let i = 0; i < listeBoutons.length; i++) {      
       const boutonActuel = listeBoutons[i];     
-      boutonActuel.addEventListener("click", (event) => {
+      boutonActuel.addEventListener("click", (event) => {        
+        boutonActuel.style.backgroundColor = "#1d6154";
+        boutonActuel.style.color = "white";
         const categoryId = parseInt(event.target.dataset.id, 10); 
         const listeTravauxFiltres = listeTravaux.filter(travail => travail.categoryId === categoryId);
         genererTravaux(listeTravauxFiltres); 
       });
-    }
- } 
+    }*/
+  
 
 
  //-----------GESTION MODALE PARTIE 2 : SELECTION ET RECUPERATION D'UNE NOUVELLE PHOTO ET REMPLISSAGE DU CADRE PREVU ---------------//
@@ -258,7 +289,7 @@ boutonFiltrerTous.addEventListener("click", () =>{
   function previewImage() {
     const file = imageInput.files[0];
     if (file) {
-      console.log("Fichier sélectionné:", file); //pour info dans la console 
+      /*console.log("Fichier sélectionné:", file); //pour info dans la console */
       const reader = new FileReader();
       reader.onload = function(event) {
         const imgElement = document.createElement("img");
