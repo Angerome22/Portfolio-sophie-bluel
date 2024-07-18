@@ -269,7 +269,7 @@ width:5px;
 
  
 }
-.btn-filtre, /*pour test*/
+.btn-filtre, 
 .btn-tous {
   border-radius: 60px;
   border: 1px solid #1d6154;
@@ -371,7 +371,7 @@ input[type="submit"] {
   margin-top: 10px;
   text-align: center;
 }
-
+/*----------------------------footer------------------*/
 footer nav {
   display: flex;
   justify-content: flex-end;   
@@ -392,9 +392,9 @@ padding: 0;
 }
 
 * {box-sizing: border-box;}
-*:focus {
+*/*:focus {
     box-shadow:  0 0 10px blue;
-}
+}*/
 
 .modal {        
     position:fixed;
@@ -628,10 +628,10 @@ i.fa-solid.fa-trash-can.trash-icon::before{
   background-color: #fff;
 }
 .js-modal-back i {
-  font-size: 20px; /* Adjust the size as needed */
+  font-size: 20px; 
 }
 .js-modal-back:hover i {
-  color: black ; /* Prevent color change on hover */
+  color: black ; 
 }
 input.valider-photo {
   background-color: #A7A7A7;

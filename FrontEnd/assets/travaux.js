@@ -22,14 +22,22 @@ function afficherInterfaceAdmin(){
   }
   //on remplace login par logout
   const loginButton = document.querySelector(".login-button");
-  if (loginButton){
-      loginButton.textContent = "logout";
-    //on ajout un ecouteur au bouton pour retourner sur la page login quand on se deconnecte
-      loginButton.addEventListener("click", function(){
-        localStorage.removeItem("authToken");
-        window.Location.href = "login.html";
-    })
-  }
+if (loginButton) {    
+    loginButton.textContent = "logout";
+    loginButton.classList.add("logout");  
+    // Vérifier si le bouton de déconnexion est bien créé    
+    const logoutButton = document.querySelector(".logout");  
+    if (logoutButton) {
+            logoutButton.addEventListener("click", function() {            
+            localStorage.removeItem("authToken");            
+            window.location.href = "index.html";
+            
+        });
+    } else {
+        console.log("Logout button not found");
+    }
+} 
+
   //on ajoute le logo crayon  texte modification
   const mesProjets = document.querySelector(".mes-projets");
   if (mesProjets) {
@@ -272,33 +280,33 @@ boutonFiltrerTous.addEventListener("click", () =>{
 
   function genererCategorieModalAjoutPhoto (listeCategories){
 
-  const labelCategory = document.querySelector(".ajout-categorie")
-  labelCategory.innerHTML = "";
+    const labelCategory = document.querySelector(".ajout-categorie")
+    labelCategory.innerHTML = "";
 
-  const titleCategory = document.createElement("label");
-  titleCategory.classList.add("ajout-categorie");
-  titleCategory.textContent = "Catégorie";
-  const choiceCategory = document.createElement("select");
-  choiceCategory.setAttribute = ("name" , "categorie");
-  choiceCategory.classList.add("ajout-categorie");
-  choiceCategory.id = "categorie";
-  labelCategory.appendChild(titleCategory);
-  labelCategory.appendChild(choiceCategory);  
-  //-------------------option value à blanc en premier-------------//
-  const optionCategoryEmpty = document.createElement("option");
-  optionCategoryEmpty.innerText = "";
-  choiceCategory.appendChild(optionCategoryEmpty);
-  //boucle pour afficher le nom de chaque catégorie de l'api dans les options du select
-  for (let i = 0; i < listeCategories.length; i++) {
-    //console.log("test");
-    const optionCategory = document.createElement("option");
-    //recup de l'id du bouton pour le futur event listener
-    optionCategory.dataset.id = listeCategories[i].id;
-    //console.log(optionCategory.dataset.id); //affiche bien 1 2 et 3 dans la console
-    optionCategory.value = listeCategories[i].id;
-    optionCategory.innerText = listeCategories[i].name;
-    choiceCategory.appendChild(optionCategory);
-  }
+    const titleCategory = document.createElement("label");
+    titleCategory.classList.add("ajout-categorie");
+    titleCategory.textContent = "Catégorie";
+    const choiceCategory = document.createElement("select");
+    choiceCategory.setAttribute = ("name" , "categorie");
+    choiceCategory.classList.add("ajout-categorie");
+    choiceCategory.id = "categorie";
+    labelCategory.appendChild(titleCategory);
+    labelCategory.appendChild(choiceCategory);  
+    //-------------------option value à blanc en premier-------------//
+    const optionCategoryEmpty = document.createElement("option");
+    optionCategoryEmpty.innerText = "";
+    choiceCategory.appendChild(optionCategoryEmpty);
+    //boucle pour afficher le nom de chaque catégorie de l'api dans les options du select
+    for (let i = 0; i < listeCategories.length; i++) {
+      //console.log("test");
+      const optionCategory = document.createElement("option");
+      //recup de l'id du bouton pour le futur event listener
+      optionCategory.dataset.id = listeCategories[i].id;
+      //console.log(optionCategory.dataset.id); //affiche bien 1 2 et 3 dans la console
+      optionCategory.value = listeCategories[i].id;
+      optionCategory.innerText = listeCategories[i].name;
+      choiceCategory.appendChild(optionCategory);
+    }
   }
 
 //----------------------GESTION MODALE PARTIE 2 : SOUMISSION DU FORMULAIRE AVEC FORMDATA ET ENVOI REQUETE AJOUT NOUVEAU TRAVAIL--------------//
@@ -315,10 +323,10 @@ photoForm.addEventListener("submit", async function(event) {
 
   // Récupérer les valeurs du formulaire
   const title = document.getElementById("titre").value;
-  console.log("title");
+  /*console.log("title");*/
   const categorySelect = document.getElementById("categorie");
   const categoryId = categorySelect.options[categorySelect.selectedIndex].dataset.id;
-  console.log("Selected Category ID:", categoryId);
+ /* console.log("Selected Category ID:", categoryId);*/
 
   // Vérifier que les champs sont remplis 
   if (!imageInput.files.length) {
@@ -347,10 +355,10 @@ if (imageInput.files.length && title && categoryId) {
   formData.append("title", title);
   formData.append("category", categoryId);
 
-  // Log formData entries for debugging
+  /* Log formData entries for debugging
   for (const [key, value] of formData.entries()) {
     console.log(`${key}: ${value}`);
-  }
+  }*/
 
   try {
     const response = await fetch("http://localhost:5678/api/works", {
@@ -362,16 +370,14 @@ if (imageInput.files.length && title && categoryId) {
     });
 
     const responseData = await response.json();
-    console.log(responseData); // Log response data for debugging
+    /*console.log(responseData); // Log response data for debugging*/
 
     if (response.ok) {
       // Réponse réussie, on peut mettre à jour l'interface utilisateur
       alert("Le fichier a été envoyé avec succès.");      
       await fetchData(); // Recharger les données des projets
-      resetModal();
-      
+      resetModal();      
       resetForm();
-
       closeModal(event); // Fermer la modale après ajout
       //openModalById('modal1'); // Rediriger vers la modal
     } else {
@@ -456,7 +462,7 @@ function ajouterListenerSuppressionPhoto () {
            trashIcons.forEach(icon => {
               icon.addEventListener("click", async (event) => {
                 const photoId = event.target.dataset.photoId;
-                console.log(photoId);
+                /*console.log(photoId);*/
                 const token = localStorage.getItem("authToken");
 
                 if (confirm("confirmer la suppression de la photo")) {
@@ -514,7 +520,7 @@ function resetForm() {
 }
 
 
-    });//-------------fermeture de l'écoute du DOMContentLOAD
+});//-------------fermeture de l'écoute du DOMContentLOAD
  
  
 
