@@ -156,7 +156,7 @@ async function fetchData() {
   
   // appel des fonctions pour générer les travaux et les filtres
   genererTravaux(listeTravaux);
-  genererFiltres(listeCategories, listeTravaux);
+  genererFiltres(listeCategories);
   ajouterListenerFiltres(listeTravaux);
   genererGaleriePhotoModal(listeTravaux);
   ajouterListenerSuppressionPhoto();
@@ -201,7 +201,7 @@ function genererTravaux(listeTravaux) {
 
 // ----------------------------------------GENERATION DES FILTRES DES TRAVAUX A PARTIR DES CATEGORIES DE L'API--------------------------------
 
-function genererFiltres(listeCategories, listeTravaux) {
+function genererFiltres(listeCategories) {
    //const listeDesCategories = listeCategories.map((categorie) => categorie);     
 
   const divFiltreCategories = document.querySelector(".filtre-categories");
