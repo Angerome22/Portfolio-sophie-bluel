@@ -1,14 +1,13 @@
 //-------------------INITIALISATION-------------------//
-
 document.addEventListener("DOMContentLoaded", function () {
 //on s'assure que le token est bien présent ici pour la suite des modifs
-const token = localStorage.getItem("authToken");
-if (token){
-  //si le token est présent on utilise la fonction qui modifie l'interface d'admin d'index
-  afficherInterfaceAdmin();
-}else{
-  //sinon on execute l'interface classique
-  afficherInterfaceClassique();
+  const token = localStorage.getItem("authToken");
+    if (token){
+      //si le token est présent on utilise la fonction qui modifie l'interface d'admin d'index
+      afficherInterfaceAdmin();
+    }else{
+      //sinon on execute l'interface classique
+      afficherInterfaceClassique();
 }
 fetchData();
 
@@ -22,57 +21,50 @@ function afficherInterfaceAdmin(){
   }
   //on remplace login par logout
   const loginButton = document.querySelector(".login-button");
-if (loginButton) {    
-    loginButton.textContent = "logout";
-    loginButton.classList.add("logout");  
-    // Vérifier si le bouton de déconnexion est bien créé    
+    if (loginButton) {    
+      loginButton.textContent = "logout";
+      loginButton.classList.add("logout");  
+      // Vérifier si le bouton de déconnexion est bien créé    
     const logoutButton = document.querySelector(".logout");  
-    if (logoutButton) {
-            logoutButton.addEventListener("click", function() {            
-            localStorage.removeItem("authToken");            
-            logoutButton.href = "index.html";            
-        });
-    } else {
+      if (logoutButton) {
+              logoutButton.addEventListener("click", function() {            
+              localStorage.removeItem("authToken");            
+              logoutButton.href = "index.html";            
+          });
+      } else {
         console.log("Logout button not found");
-    }
+      }
 } 
 
   //on ajoute le logo crayon  texte modification
   const mesProjets = document.querySelector(".mes-projets");
-  if (mesProjets) {
-    const linkIcon = document.createElement("a");
-    const editIcon = document.createElement("i");
-    const iconText = document.createElement("span");
-    linkIcon.href = "#modal1";    
-    linkIcon.classList.add("js-modal");
-    iconText.classList.add("modify")
-    editIcon.classList.add("fa-regular","fa-pen-to-square", "fa-2xs", "edit-icon");
-    iconText.textContent = "modifier";
-    
-    linkIcon.appendChild(editIcon);
-    linkIcon.appendChild(iconText);
-
-    mesProjets.appendChild(linkIcon);  
+    if (mesProjets) {
+      const linkIcon = document.createElement("a");
+      const editIcon = document.createElement("i");
+      const iconText = document.createElement("span");
+      linkIcon.href = "#modal1";    
+      linkIcon.classList.add("js-modal");
+      iconText.classList.add("modify")
+      editIcon.classList.add("fa-regular","fa-pen-to-square", "fa-2xs", "edit-icon");
+      iconText.textContent = "modifier";      
+      linkIcon.appendChild(editIcon);
+      linkIcon.appendChild(iconText);
+      mesProjets.appendChild(linkIcon);  
   }
 }
-
-
 //---------------------------------------------------INTERFACE CLASSIQUE------------------------------------//
-
 function afficherInterfaceClassique() {
   const divFiltreCategories = document.querySelector(".filtre-categories");
-  if (divFiltreCategories) {
-      divFiltreCategories.style.display = "block";
-  }
+    if (divFiltreCategories) {
+        divFiltreCategories.style.display = "block";
+    }
 
-  const loginButton = document.querySelector(".login-button");
-  if (loginButton) {
-      loginButton.textContent = "Login";
-  }
+    const loginButton = document.querySelector(".login-button");
+    if (loginButton) {
+        loginButton.textContent = "Login";
+    }
 }
-
 //-----------------------------------------------------------GESTION DES-MODALES------------------------------------------------//
-
 let modal = null
 const focusableSelector = "button, a, input, href, select, option, label"
 let focusables = []
@@ -95,16 +87,16 @@ const openModal =  function (e) {
 }
 
 const closeModal =  function (e) {
-  if (modal === null) return
-  if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
-  e.preventDefault()  
-  modal.style.display = "none"
-  modal.setAttribute("aria-hidden", "true")
-  modal.removeAttribute("aria-modal")
-  modal.removeEventListener("click", closeModal)
-  modal.querySelector(".js-modal-close").removeEventListener("click", closeModal)
-  modal.querySelector(".js-modal-stop").removeEventListener("click", stopPropagation)
-  modal = null 
+    if (modal === null) return
+    if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
+    e.preventDefault()  
+    modal.style.display = "none"
+    modal.setAttribute("aria-hidden", "true")
+    modal.removeAttribute("aria-modal")
+    modal.removeEventListener("click", closeModal)
+    modal.querySelector(".js-modal-close").removeEventListener("click", closeModal)
+    modal.querySelector(".js-modal-stop").removeEventListener("click", stopPropagation)
+    modal = null 
   
 }
 
@@ -152,8 +144,7 @@ async function fetchData() {
   const listeTravaux = await reponseTravaux.json(); //works a remplacer par ListeProjets
   //console.log(reponse); test recup sur console
   const reponseCategories = await fetch("http://localhost:5678/api/categories");
-  const listeCategories = await reponseCategories.json();
-  
+  const listeCategories = await reponseCategories.json();  
   // appel des fonctions pour générer les travaux et les filtres
   genererTravaux(listeTravaux);
   genererFiltres(listeCategories);
@@ -169,33 +160,33 @@ function genererTravaux(listeTravaux) {
   //recuperation de l'élément du DOM qui accueillera les projets
   const divGallery = document.querySelector(".gallery");
   // Vérifiez que l'élément existe avant d'essayer de modifier son contenu
-  if (!divGallery) {
-    console.error("L'élément .gallery n'existe pas sur cette page.");
-    return;}
-  //Effacement de l'écran et regénération de la page  
-  divGallery.innerHTML = "";
+    if (!divGallery) {
+      console.error("L'élément .gallery n'existe pas sur cette page.");
+      return;}
+    //Effacement de l'écran et regénération de la page  
+    divGallery.innerHTML = "";
 
   // boucle qui va lister les projets
-  for (let i = 0; i < listeTravaux.length; i++) {
-    const projets = listeTravaux[i];
-    
-    //création d'une balise figure pour accueillir chaque projet
-    const projetItem = document.createElement("figure");
+    for (let i = 0; i < listeTravaux.length; i++) {
+      const projets = listeTravaux[i];
+      
+      //création d'une balise figure pour accueillir chaque projet
+      const projetItem = document.createElement("figure");
 
-    //creation des balises du projet
-    const imageItem = document.createElement("img");    
-    imageItem.src = projets.imageUrl;
-    const titleItem = document.createElement("figcaption");
-    titleItem.innerText = projets.title;    
-    const categoryIdElement = document.createElement("p");//caché à l'affichage
-    categoryIdElement.innerText = projets.categoryId;
-    
-    //on rattache les éléments à chaque balise figure
-    projetItem.appendChild(imageItem);
-    projetItem.appendChild(titleItem);
-    projetItem.appendChild(categoryIdElement);
-    //on rattache l'objet figure à la div gallery
-    divGallery.appendChild(projetItem);    
+      //creation des balises du projet
+      const imageItem = document.createElement("img");    
+      imageItem.src = projets.imageUrl;
+      const titleItem = document.createElement("figcaption");
+      titleItem.innerText = projets.title;    
+      const categoryIdElement = document.createElement("p");//caché à l'affichage
+      categoryIdElement.innerText = projets.categoryId;
+      
+      //on rattache les éléments à chaque balise figure
+      projetItem.appendChild(imageItem);
+      projetItem.appendChild(titleItem);
+      projetItem.appendChild(categoryIdElement);
+      //on rattache l'objet figure à la div gallery
+      divGallery.appendChild(projetItem);    
   }
 }
 
@@ -206,43 +197,38 @@ function genererFiltres(listeCategories) {
 
   const divFiltreCategories = document.querySelector(".filtre-categories");
   // Vérifiez que l'élément existe avant d'essayer de modifier son contenu
-  if (!divFiltreCategories) {
-    console.error("L'élément .filtre-categories n'existe pas sur cette page.");
-    return;
-  }
-  divFiltreCategories.innerHTML= "";
+    if (!divFiltreCategories) {
+      console.error("L'élément .filtre-categories n'existe pas sur cette page.");
+      return;
+    }
+    divFiltreCategories.innerHTML= "";
   //creation de la balise button "tous" en dehors de la boucle puisque hors catégorie
-  const boutonFiltrerTous = document.createElement("button");
-  boutonFiltrerTous.setAttribute("class", "btn-tous actif");
-  boutonFiltrerTous.textContent = "Tous";
-  divFiltreCategories.appendChild(boutonFiltrerTous);
+    const boutonFiltrerTous = document.createElement("button");
+    boutonFiltrerTous.setAttribute("class", "btn-tous actif");
+    boutonFiltrerTous.textContent = "Tous";
+    divFiltreCategories.appendChild(boutonFiltrerTous);
 
   //boucle pour afficher le nom de chaque catégorie de l'api
-  for (let i = 0; i < listeCategories.length; i++) {
-    //console.log("test");
-    const boutonFiltrer = document.createElement("button");
-    //recup de l'id du bouton pour le futur event listener
-    boutonFiltrer.dataset.id = listeCategories[i].id;
-    //console.log(boutonFiltrer.dataset.id); //affiche bien 1 2 et 3 dans la console
-    boutonFiltrer.setAttribute("class", "btn-filtre");
-    boutonFiltrer.innerText = listeCategories[i].name;
-    divFiltreCategories.appendChild(boutonFiltrer);
-  }
+    for (let i = 0; i < listeCategories.length; i++) {
+      //console.log("test");
+      const boutonFiltrer = document.createElement("button");
+      //recup de l'id du bouton pour le futur event listener
+      boutonFiltrer.dataset.id = listeCategories[i].id;
+      //console.log(boutonFiltrer.dataset.id); //affiche bien 1 2 et 3 dans la console
+      boutonFiltrer.setAttribute("class", "btn-filtre");
+      boutonFiltrer.innerText = listeCategories[i].name;
+      divFiltreCategories.appendChild(boutonFiltrer);
+    }
 }
-// -------------------------------------------------AJOUT DE LISTENER SUR BOUTONS FILTRES ---------------------
-
-
+// -------------------------------------------------AJOUT DE LISTENER SUR BOUTONS FILTRES ---------------------//
 function ajouterListenerFiltres(listeTravaux) {
   const listeBoutons = document.querySelectorAll(".btn-filtre, .btn-tous");
   listeBoutons.forEach(bouton => {
     bouton.addEventListener("click", (event) => {
       // Retirer la classe active de tous les boutons
       listeBoutons.forEach(b => b.classList.remove("actif"));
-
-
       // Ajouter la classe active au bouton cliqué
       bouton.classList.add("actif");
-
       // Appliquer le filtre
       if (bouton.classList.contains("btn-tous")) {
         genererTravaux(listeTravaux);
@@ -258,9 +244,6 @@ function ajouterListenerFiltres(listeTravaux) {
 
   const imageInput = document.getElementById("imageInput");
   const photoContainer = document.getElementById("photoContainer");
-  
-
-
   // Fonction pour prévisualiser l'image sélectionnée
   function previewImage() {
     const file = imageInput.files[0];
@@ -281,13 +264,9 @@ function ajouterListenerFiltres(listeTravaux) {
       };
       reader.readAsDataURL(file);   
     }
-  }
-  
+  }  
   imageInput.addEventListener("change", previewImage);
-
   //-----------GESTION MODALE PARTIE 2 : RECUPERATION DES CATEGORIES DEPUIS L'API ---------------//
-
-
   function genererCategorieModalAjoutPhoto (listeCategories){
 
     const labelCategory = document.querySelector(".ajout-categorie")
@@ -319,14 +298,9 @@ function ajouterListenerFiltres(listeTravaux) {
     }
   }
 
-//----------------------GESTION MODALE PARTIE 2 : SOUMISSION DU FORMULAIRE AVEC FORMDATA ET ENVOI REQUETE AJOUT NOUVEAU TRAVAIL--------------//
-
-
+//-------------GESTION MODALE PARTIE 2 : SOUMISSION DU FORMULAIRE AVEC FORMDATA ET ENVOI REQUETE AJOUT NOUVEAU TRAVAIL--------------//
 const photoForm = document.getElementById("photoForm");
 const submitButton = document.getElementById("submitButton");
-
-
-
 // Ajouter l'écouteur d'événement sur le formulaire pour le soumettre
 photoForm.addEventListener("submit", async function(event) {
   event.preventDefault(); 
@@ -337,33 +311,32 @@ photoForm.addEventListener("submit", async function(event) {
   const categorySelect = document.getElementById("categorie");
   const categoryId = categorySelect.options[categorySelect.selectedIndex].dataset.id;
  /* console.log("Selected Category ID:", categoryId);*/
-
   // Vérifier que les champs sont remplis 
-  if (!imageInput.files.length) {
-    alert("Veuillez sélectionner une photo.");
-    return;
-  }
-  if (!title) {
-    alert("Veuillez entrer un titre.");
-    return;
-  }
-  if (!categoryId) {
-    alert("Veuillez choisir une catégorie.");
-    return;
-  }
+    if (!imageInput.files.length) {
+      alert("Veuillez sélectionner une photo.");
+      return;
+    }
+    if (!title) {
+      alert("Veuillez entrer un titre.");
+      return;
+    }
+    if (!categoryId) {
+      alert("Veuillez choisir une catégorie.");
+      return;
+    }
 //---------------on change la couleur du bouton si tous les champs sont remplis-------------//
-if (imageInput.files.length && title && categoryId) {
-  submitButton.style.backgroundColor = "#1d6154";
-  submitButton.style.color = "white";
-  submitButton.disabled = false;
-} 
+    if (imageInput.files.length && title && categoryId) {
+      submitButton.style.backgroundColor = "#1d6154";
+      submitButton.style.color = "white";
+      submitButton.disabled = false;
+    } 
 
-  const file = imageInput.files[0]; 
+    const file = imageInput.files[0]; 
 
-  const formData = new FormData();
-  formData.append("image", file, file.name);
-  formData.append("title", title);
-  formData.append("category", categoryId);
+    const formData = new FormData();
+    formData.append("image", file, file.name);
+    formData.append("title", title);
+    formData.append("category", categoryId);
 
   /* Log formData entries for debugging
   for (const [key, value] of formData.entries()) {
@@ -382,19 +355,19 @@ if (imageInput.files.length && title && categoryId) {
     /*const responseData = await response.json();
     /*console.log(responseData); // Log response data for debugging*/
 
-    if (response.ok) {
-      // Réponse réussie, on peut mettre à jour l'interface utilisateur
-      alert("Le fichier a été envoyé avec succès.");      
-      await fetchData(); // Recharger les données des projets
-      resetModal();      
-      resetForm();
-      closeModal(event); // Fermer la modale après ajout
-      //openModalById('modal1'); // Rediriger vers la modal
-    } else {
-      // Gestion des erreurs
-      const errorData = await response.json();
-      alert(errorData.message || "Une erreur est survenue lors de l'ajout de la photo.");
-    }
+      if (response.ok) {
+        // Réponse réussie, on peut mettre à jour l'interface utilisateur
+        alert("Le fichier a été envoyé avec succès.");      
+        await fetchData(); // Recharger les données des projets
+        resetModal();      
+        resetForm();
+        closeModal(event); // Fermer la modale après ajout
+        //openModalById('modal1'); // Rediriger vers la modal
+      } else {
+        // Gestion des erreurs
+        const errorData = await response.json();
+        alert(errorData.message || "Une erreur est survenue lors de l'ajout de la photo.");
+      }
   } catch (error) {
     console.error("Erreur lors de l'envoi de la requête :", error);
     alert("Une erreur est survenue lors de l'envoi de la photo.");
@@ -402,39 +375,37 @@ if (imageInput.files.length && title && categoryId) {
 });
 
 //-------------------------------GESTION MODALE PARTIE 1 : GENERATION DE LA GALERIE PHOTOS------------------------//
-
 function genererGaleriePhotoModal(listePhotos) {
-        const divgalleryPhotoModal = document.querySelector(".galleryPhotoModal");
-        if (!divgalleryPhotoModal) {
-            console.error("L'élément .galleryPhotoModal n'existe pas sur cette page.");
-            return;
-        }
-        divgalleryPhotoModal.innerHTML = "";
+    const divgalleryPhotoModal = document.querySelector(".galleryPhotoModal");
+      if (!divgalleryPhotoModal) {
+        console.error("L'élément .galleryPhotoModal n'existe pas sur cette page.");
+        return;
+       }
+      divgalleryPhotoModal.innerHTML = "";
 
-        for (const photo of listePhotos) {
-            const projetItemModal = document.createElement("figure");
+      for (const photo of listePhotos) {
+        const projetItemModal = document.createElement("figure");
 
-            const logoSupp = document.createElement("i");
-            logoSupp.classList.add("fa-solid", "fa-trash-can", "trash-icon");
-            logoSupp.id = "suppPhoto"; 
-            logoSupp.dataset.photoId = photo.id; //Ajouter l'ID du photo pour référence          
+        const logoSupp = document.createElement("i");
+        logoSupp.classList.add("fa-solid", "fa-trash-can", "trash-icon");
+        logoSupp.id = "suppPhoto"; 
+        logoSupp.dataset.photoId = photo.id; //Ajouter l'ID du photo pour référence          
 
-            const imageItemModal = document.createElement("img");
-            imageItemModal.src = photo.imageUrl;
+        const imageItemModal = document.createElement("img");
+        imageItemModal.src = photo.imageUrl;
            
-            const categoryIdPhoto = document.createElement("p");
-            categoryIdPhoto.id = "categoryPhoto";
-            categoryIdPhoto.innerText = photo.categoryId;            
-            categoryIdPhoto.style.display = "none";
+        const categoryIdPhoto = document.createElement("p");
+        categoryIdPhoto.id = "categoryPhoto";
+        categoryIdPhoto.innerText = photo.categoryId;            
+        categoryIdPhoto.style.display = "none";
 
-            projetItemModal.appendChild(logoSupp);
-            projetItemModal.appendChild(imageItemModal);
-            projetItemModal.appendChild(categoryIdPhoto);
-            divgalleryPhotoModal.appendChild(projetItemModal);
+        projetItemModal.appendChild(logoSupp);
+        projetItemModal.appendChild(imageItemModal);
+        projetItemModal.appendChild(categoryIdPhoto);
+        divgalleryPhotoModal.appendChild(projetItemModal);
         }
 
-//---------------------------GESTION MODALE PARTIE 2 : LISTENER SUR LES BOUTONS FERMER MODALES ET RETOUR MODALE 1 ET  AJOUTER UNE PHOTO---------------//  
-
+//-------------GESTION MODALE PARTIE 2 : LISTENER SUR LES BOUTONS FERMER MODALES ET RETOUR MODALE 1 ET  AJOUTER UNE PHOTO------------// 
         const ajoutPhotoButton = document.querySelector(".js-ajout-photo");
         const modal1 = document.getElementById("modal1");
         const modal2 = document.querySelector(".modal2");
